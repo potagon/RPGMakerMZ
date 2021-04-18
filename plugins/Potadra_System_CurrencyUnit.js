@@ -113,11 +113,14 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
-・Ver1.2.2(2021/4/16)
+・Ver1.2.1(2021/4/18)
 - スイッチと変数がデフォルトから変更できないバグ修正
-
-・Ver1.2.1(2021/4/5)
+- 購入レートが正しく反映されないバグ修正
 - 説明修正
+
+・Ver1.2.0(2021/4/4)
+- プラグイン名変更
+- インデント変更
 */
 
 // パラメータ定義
@@ -129,8 +132,8 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const CurrencyUnitSwitch   = Number(params.CurrencyUnitSwitch || 25);
-    const CurrencyVariable     = Number(params.CurrencyVariable || 30);
+    const CurrencyUnitSwitch     = Number(params.CurrencyUnitSwitch || 25);
+    const CurrencyVariable       = Number(params.CurrencyVariable || 30);
     const BuyName                = String(params.BuyName) || '交換する';
     const SecondCurrencyUnitName = String(params.SecondCurrencyUnitName) || '枚';
     const BuyRate                = Number(params.BuyRate || 1);
@@ -149,7 +152,7 @@ https://opensource.org/licenses/mit-license.php
         $gameVariables.setValue(CurrencyVariable, $gameParty.gold());
         $gameParty.setGold(tmp);
 
-        if(isSecound()){
+        if(isSecound()) {
             $gameSwitches.setValue(CurrencyUnitSwitch, false);
         } else {
             $gameSwitches.setValue(CurrencyUnitSwitch, true);
@@ -196,7 +199,7 @@ https://opensource.org/licenses/mit-license.php
      */
     const _Window_ShopCommand_makeCommandList = Window_ShopCommand.prototype.makeCommandList;
     Window_ShopCommand.prototype.makeCommandList = function() {
-        if($gameSwitches.value(CurrencyUnitSwitch) === true){
+        if($gameSwitches.value(CurrencyUnitSwitch) === true) {
             this.addCommand(BuyName, "buy");
             this.addCommand(TextManager.sell, "sell", !this._purchaseOnly);
             this.addCommand(TextManager.cancel, "cancel");
@@ -213,28 +216,34 @@ https://opensource.org/licenses/mit-license.php
      */
 
     /**
-     * 買値の取得
-     *
-     * @returns {}
-     */
-    Scene_Shop.prototype.buyingPrice = function() {
-        if(isSecound()){
-            return Math.floor(this._buyWindow.price(this._item) * SecondBuyRate);
-        } else {
-            return Math.floor(this._buyWindow.price(this._item) * BuyRate);
-        }
-    };
-
-    /**
      * 売値の取得
      *
      * @returns {}
      */
     Scene_Shop.prototype.sellingPrice = function() {
-        if(isSecound()){
+        if(isSecound()) {
             return Math.floor(this._item.price * SecondSellRate);
         } else {
             return Math.floor(this._item.price * SellRate);
+        }
+    };
+
+    /**
+     * アイテムリストの作成
+     */
+     Window_ShopBuy.prototype.makeItemList = function() {
+        this._data = [];
+        this._price = [];
+        for (const goods of this._shopGoods) {
+            const item = this.goodsToItem(goods);
+            if (item) {
+                this._data.push(item);
+                if(isSecound()) {
+                    this._price.push(goods[2] === 0 ? item.price * SecondBuyRate : goods[3]);
+                } else {
+                    this._price.push(goods[2] === 0 ? item.price * BuyRate : goods[3]);
+                }
+            }
         }
     };
 })();

@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ショップレート Ver1.2.0
+ショップレート Ver1.2.1
 
 @base Potadra_Base
 
@@ -33,6 +33,9 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
+・Ver1.2.1(2021/4/18)
+- 購入レートが正しく反映されないバグ修正
+
 ・Ver1.2.0(2021/4/4)
 - プラグイン名変更
 - インデント変更
@@ -57,20 +60,26 @@ https://opensource.org/licenses/mit-license.php
      */
 
     /**
-     * 買値の取得
-     *
-     * @returns {}
-     */
-    Scene_Shop.prototype.buyingPrice = function() {
-        return Math.floor(this._buyWindow.price(this._item) * BuyRate);
-    };
-
-    /**
      * 売値の取得
      *
      * @returns {}
      */
     Scene_Shop.prototype.sellingPrice = function() {
         return Math.floor(this._item.price * SellRate);
+    };
+
+    /**
+     * アイテムリストの作成
+     */
+    Window_ShopBuy.prototype.makeItemList = function() {
+        this._data = [];
+        this._price = [];
+        for (const goods of this._shopGoods) {
+            const item = this.goodsToItem(goods);
+            if (item) {
+                this._data.push(item);
+                this._price.push(goods[2] === 0 ? item.price * BuyRate : goods[3]);
+            }
+        }
     };
 })();

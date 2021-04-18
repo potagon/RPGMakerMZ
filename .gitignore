@@ -3,6 +3,8 @@ plugins/*
 !Potadra*
 plugins/Potadra_Other_HtmlSupport.js
 plugins/Potadra_Map_Minecraft.js
+plugins/Potadra_Max.js
+plugins/Potadra_Max_LevelCap.js
 plugins/Potadra_Save_StartDelete.js
 plugins/Potadra_Window_Story.js
 plugins/Potadra_Test.js
