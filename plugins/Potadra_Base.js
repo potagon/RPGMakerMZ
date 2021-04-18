@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ベースプラグイン Ver1.3.0
+ベースプラグイン Ver1.3.1
 
 @target MZ
 @author ポテトドラゴン
@@ -15,6 +15,9 @@
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
+
+・Ver1.3.1(2021/4/18)
+- プラグインの導入状態を確認する機能追加
 
 ・Ver1.3.0(2021/4/4)
 - プラグイン名変更
@@ -33,6 +36,16 @@ class Potadra {
      */
     static getPluginName() {
         return document.currentScript.src.replace(/.+(Potadra.+)\.js/, '$1');
+    }
+
+    /**
+     * プラグインの導入状態確認
+     *
+     * @param {string} plugin_name - 導入状態を確認するプラグイン名
+     * @returns {boolean} プラグインの導入有無
+     */
+    static isPlugin(plugin_name) {
+        return PluginManager._scripts.includes(plugin_name);
     }
 
     /**

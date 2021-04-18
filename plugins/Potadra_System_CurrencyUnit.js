@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-通貨単位切り替え Ver1.2.0
+通貨単位切り替え Ver1.2.1
 
 @base Potadra_Base
 
@@ -19,9 +19,9 @@
 イベントの実行内容を以下のように設定することで、
 景品交換所を実現出来ます。
 
-◆プラグインコマンド：Potadra_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
 ◆ショップの処理：ポーション
-◆プラグインコマンド：Potadra_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
 
 景品の内容はショップの処理で変更してください。
 また、ショップの処理を購入のみとすることで、景品交換所らしさが出ます。
@@ -41,12 +41,12 @@
 
 ● G → 円(イベントの組み方)
 
-◆プラグインコマンド：Potadra_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
 ◆場所移動：日本(0,0)
 
 ● 円 → G(イベントの組み方)
 
-◆プラグインコマンド：Potadra_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
 ◆場所移動：ファンタジーの世界(0,0)
 
 @param CurrencyUnitSwitch
@@ -113,9 +113,11 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
+・Ver1.2.2(2021/4/16)
+- スイッチと変数がデフォルトから変更できないバグ修正
+
+・Ver1.2.1(2021/4/5)
+- 説明修正
 */
 
 // パラメータ定義
@@ -127,8 +129,8 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const CurrencyUnitSwitchId   = Number(params.CurrencyUnitSwitchId || 25);
-    const CurrencyVariableId     = Number(params.CurrencyVariableId || 30);
+    const CurrencyUnitSwitch   = Number(params.CurrencyUnitSwitch || 25);
+    const CurrencyVariable     = Number(params.CurrencyVariable || 30);
     const BuyName                = String(params.BuyName) || '交換する';
     const SecondCurrencyUnitName = String(params.SecondCurrencyUnitName) || '枚';
     const BuyRate                = Number(params.BuyRate || 1);
@@ -137,20 +139,20 @@ https://opensource.org/licenses/mit-license.php
     const SecondSellRate         = Number(params.SecondSellRate || 0.5);
 
     function isSecound() {
-        return $gameSwitches.value(CurrencyUnitSwitchId) === true;
+        return $gameSwitches.value(CurrencyUnitSwitch) === true;
     }
 
     // プラグインコマンド(通貨切り替え)
     PluginManager.registerCommand(plugin_name, "change_currency_unit", args => {
         let tmp = 0;
-        tmp = $gameVariables.value(CurrencyVariableId);
-        $gameVariables.setValue(CurrencyVariableId, $gameParty.gold());
+        tmp = $gameVariables.value(CurrencyVariable);
+        $gameVariables.setValue(CurrencyVariable, $gameParty.gold());
         $gameParty.setGold(tmp);
 
         if(isSecound()){
-            $gameSwitches.setValue(CurrencyUnitSwitchId, false);
+            $gameSwitches.setValue(CurrencyUnitSwitch, false);
         } else {
-            $gameSwitches.setValue(CurrencyUnitSwitchId, true);
+            $gameSwitches.setValue(CurrencyUnitSwitch, true);
         }
     });
 
@@ -194,7 +196,7 @@ https://opensource.org/licenses/mit-license.php
      */
     const _Window_ShopCommand_makeCommandList = Window_ShopCommand.prototype.makeCommandList;
     Window_ShopCommand.prototype.makeCommandList = function() {
-        if($gameSwitches.value(CurrencyUnitSwitchId) === true){
+        if($gameSwitches.value(CurrencyUnitSwitch) === true){
             this.addCommand(BuyName, "buy");
             this.addCommand(TextManager.sell, "sell", !this._purchaseOnly);
             this.addCommand(TextManager.cancel, "cancel");
