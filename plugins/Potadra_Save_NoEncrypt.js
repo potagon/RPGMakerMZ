@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-セーブ暗号化解除 Ver1.1.0
+セーブ暗号化解除 Ver1.1.1
 
 @base Potadra_Base
 
@@ -24,12 +24,23 @@
 @on 有効にする
 @off 有効にしない
 @default true
+
+@param JsonFormat
+@type boolean
+@text JSON整形
+@desc セーブしたときのJSONを整形するか
+@on 整形する
+@off 整形しない
+@default true
 */
 
 /*
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
+
+・Ver1.1.1(2021/5/3)
+- JSONを整形するプラグインパラメータを追加
 
 ・Ver1.1.0(2021/4/4)
 - プラグイン名変更
@@ -44,9 +55,28 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用定数
-    const PlayTest = Potadra.convertBool(params.PlayTest);
+    const PlayTest   = Potadra.convertBool(params.PlayTest);
+    const JsonFormat = Potadra.convertBool(params.JsonFormat);
 
     if (!PlayTest || Utils.isOptionValid("test")) {
+        if (JsonFormat) {
+            /**
+             * 
+             *
+             * @param {} object - 
+             */
+            StorageManager.objectToJson = function(object) {
+                return new Promise((resolve, reject) => {
+                    try {
+                        const json = JSON.stringify(JsonEx._encode(object, 0), null, 4);
+                        resolve(json);
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            };
+        }
+
         /**
          * 
          *

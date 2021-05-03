@@ -61,7 +61,7 @@ https://opensource.org/licenses/mit-license.php
     // プラグインコマンド(プラグインコマンド名)
     PluginManager.registerCommand(plugin_name, "name_shop_item", args => {
         let goods = [];
-        const buy_only   = Potadra.convertBool(args.buyOnly);
+        const buy_only = Potadra.convertBool(args.buyOnly);
         if (args.goods) {
             const good_lists = JSON.parse(args.goods);
             let type, val;

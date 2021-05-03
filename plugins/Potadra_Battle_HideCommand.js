@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-戦闘コマンド非表示 Ver1.3.0
+戦闘コマンド非表示 Ver1.3.1
 
 @base Potadra_Base
 
@@ -58,6 +58,9 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
+・Ver1.3.1(2021/5/3)
+- 攻撃コマンド封印時、無条件でコマンドを非表示にしてしまうバグ修正
+
 ・Ver1.3.0(2021/4/4)
 - プラグイン名変更
 - インデント変更
@@ -72,11 +75,11 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const HideAttackCommand       = Potadra.convertBool(params.HideAttackCommand);
-    const HideCannotAttackCommand = Potadra.convertBool(params.HideCannotAttackCommand);
-    const HideSkillCommand        = Potadra.convertBool(params.HideSkillCommand);
-    const HideGuardCommand        = Potadra.convertBool(params.HideGuardCommand);
-    const HideItemCommand         = Potadra.convertBool(params.HideItemCommand);
+    const HideAttackCommand = Potadra.convertBool(params.HideAttackCommand);
+    const HideCannotAttack  = Potadra.convertBool(params.HideCannotAttack);
+    const HideSkillCommand  = Potadra.convertBool(params.HideSkillCommand);
+    const HideGuardCommand  = Potadra.convertBool(params.HideGuardCommand);
+    const HideItemCommand   = Potadra.convertBool(params.HideItemCommand);
 
     /**
      * バトル画面で、アクターの行動を選択するウィンドウです。
@@ -90,7 +93,7 @@ https://opensource.org/licenses/mit-license.php
     Window_ActorCommand.prototype.makeCommandList = function() {
         if (this._actor) {
             if (!HideAttackCommand) {
-                if (!HideCannotAttackCommand || HideCannotAttackCommand && this._actor.canAttack()) {
+                if (!HideCannotAttack || HideCannotAttack && this._actor.canAttack()) {
                     this.addAttackCommand();
                 }
             }

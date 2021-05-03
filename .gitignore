@@ -1,12 +1,15 @@
 # 公開しないプラグイン
 plugins/*
 !Potadra*
-plugins/Potadra_Other_HtmlSupport.js
+plugins/Potadra_Command_TempVariables.js
 plugins/Potadra_Map_Minecraft.js
 plugins/Potadra_Max.js
 plugins/Potadra_Max_LevelCap.js
+plugins/Potadra_Name_Switch.js
+plugins/Potadra_Name_Id.js
+plugins/Potadra_Name_ItemSkill.js
 plugins/Potadra_Save_StartDelete.js
-plugins/Potadra_Window_Story.js
 plugins/Potadra_Test.js
 plugins/Potadra_TestWindow.js
+plugins/Potadra_Window_Story.js
 plugins/Potadra_テンプレート.js

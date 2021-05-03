@@ -168,7 +168,7 @@ https://opensource.org/licenses/mit-license.php
                         skill_count +=1;
                         // 複合条件を満たしたとき
                         if (skill_count === count) {
-                            let skill_id = Potadra.nameSearch($dataSkills, composite_name, "id");
+                            let skill_id = Potadra.nameSearch($dataSkills, composite_name);
                             // 複合スキルが見つかったら
                             if (skill_id) {
                                 // 複合するスキルを忘れる
@@ -181,8 +181,6 @@ https://opensource.org/licenses/mit-license.php
                         }
                     }
                 }
-
-
             }
             this._skills.sort((a, b) => a - b);
         }

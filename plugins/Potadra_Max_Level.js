@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-レベル上限突破 Ver0.12.0
+レベル上限突破 Ver0.12.1
 
 @base Potadra_Base
 
@@ -40,14 +40,6 @@
 @desc レベルアップ時に全回復するかの設定
 @on 回復する
 @off 回復しない
-@default false
-
-@param NameDatabase
-@type boolean
-@text 名前データベース
-@desc 名前データベース(Potadra_NameDatabase.js)に対応するかの設定
-@on 対応する
-@off 対応しない
 @default false
 
 @param MaxLevelMenu
@@ -91,6 +83,9 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
+・Ver0.12.1(2021/5/3)
+- プラグインの有無を自動で判断するように修正
+
 ・Ver0.12.0(2021/4/4)
 - プラグイン名変更
 - インデント変更
@@ -109,7 +104,7 @@ https://opensource.org/licenses/mit-license.php
     const SmallFishName  = String(params.SmallFishName || 'ザコ');
     const MobName        = String(params.MobName || 'モブ');
     const LevelUpRecover = Potadra.convertBool(params.LevelUpRecover);
-    const NameDatabase   = Potadra.convertBool(params.NameDatabase);
+    const NameDatabase   = Potadra.isPlugin('Potadra_Name_Database');
     const MaxLevelMenu   = Potadra.convertBool(params.MaxLevelMenu);
 
     // プラグインコマンド(レベルの変更)

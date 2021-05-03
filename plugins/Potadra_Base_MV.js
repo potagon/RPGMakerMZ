@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-MVベースプラグイン Ver0.5.0
+MVベース Ver0.5.0
 
 @target MZ
 @author ポテトドラゴン

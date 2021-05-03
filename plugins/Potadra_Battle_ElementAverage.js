@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-属性値平均計算 Ver1.2.0
+属性値平均計算 Ver1.2.1
 
 @base Potadra_Base
 
@@ -47,6 +47,9 @@ Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
+・Ver1.2.1(2021/5/3)
+- 正しく動かないバグ修正
+
 ・Ver1.2.0(2021/4/4)
 - プラグイン名変更
 - インデント変更
@@ -63,15 +66,6 @@ https://opensource.org/licenses/mit-license.php
     // 各パラメータ用変数
     const Min = Potadra.convertBool(params.Min);
 
-    // 平均値計算
-    Math.average = function (array) {
-        let result = 0, index = 0;
-        for (index in array) {
-            result = result + array[index];
-        }
-        return result / array.length;
-    };
-
     /**
      * 戦闘行動を扱うクラスです。
      * このクラスは Game_Battler クラスの内部で使用されます。
@@ -87,18 +81,15 @@ https://opensource.org/licenses/mit-license.php
      * @returns {} 与えられた属性の中の平均値を返す
      */
     Game_Action.prototype.elementsMaxRate = function(target, elements) {
-        if (Min) {
-            if (elements.length > 0) {
+        if (elements.length > 0) {
+            if (Min) {
                 const rates = elements.map(elementId => target.elementRate(elementId));
                 return Math.min(...rates);
-            }
-        } else {
-            if (elements.length >= 2) {
+            } else {
+                // 平均値計算
                 const rates = elements.map(elementId => target.elementRate(elementId));
-                return Math.average(rates);
-            } else if (elements.length > 0) {
-                const rates = elements.map(elementId => target.elementRate(elementId));
-                return Math.max(...rates);
+                const sum = rates.reduce((r, rate) => r + rate, 0);
+                return Math.max(1, sum / Math.max(1, rates.length));
             }
         }
         return 1;
