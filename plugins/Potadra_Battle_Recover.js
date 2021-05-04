@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-戦闘前後に全回復 Ver1.3.0
+戦闘前後に全回復 Ver1.3.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_Recover.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_Recover.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 戦闘の開始と終了時に全回復します。
@@ -124,18 +130,6 @@ TP持ち越しの特徴がある場合のみ有効
 @off 解除しない
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.3.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-転生アイテム Ver1.0.0
+転生アイテム Ver1.0.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_ReincarnationItem.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_ReincarnationItem.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 メモ欄のタグで指定したレベルで使用可能になる転生アイテムを追加します。
@@ -89,17 +95,6 @@
 @default 0.1
 @min 0
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.0.0(2021/4/4)
-- 公開
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

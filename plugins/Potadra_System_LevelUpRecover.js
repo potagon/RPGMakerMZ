@@ -1,28 +1,23 @@
 /*:
 @plugindesc
-レベルアップ時全回復 Ver1.3.0
+レベルアップ時全回復 Ver1.3.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_LevelUpRecover.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_LevelUpRecover.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 レベルアップ時に全回復します。
 
 ステート等も解除されますが、TPは回復しません。
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.3.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

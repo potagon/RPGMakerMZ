@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-敵キャラレベル追加 Ver0.10.0
+敵キャラレベル追加 Ver0.10.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_EnemyLevel.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_EnemyLevel.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 敵キャラにレベルを追加します。
@@ -29,18 +35,6 @@
 @desc 敵キャラのレベルを管理する変数
 @default ["53", "54", "55", "56", "57", "58", "59", "60"]
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver0.10.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

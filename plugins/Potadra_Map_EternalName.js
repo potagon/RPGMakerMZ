@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-常時マップ名表示 Ver1.3.0
+常時マップ名表示 Ver1.3.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Map_EternalName.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Map_EternalName.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 マップ名を常に表示します。
@@ -41,18 +47,6 @@
 @desc 階層の後ろに表記する文字
 @default F
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.3.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

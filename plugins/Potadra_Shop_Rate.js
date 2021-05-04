@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-ショップレート Ver1.2.1
+ショップレート Ver1.2.2(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Shop_Rate.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Shop_Rate.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 ショップの購入時と売却時のレートを設定します。
@@ -27,21 +33,6 @@
 @decimals 2
 @default 0.50
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.1(2021/4/18)
-- 購入レートが正しく反映されないバグ修正
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

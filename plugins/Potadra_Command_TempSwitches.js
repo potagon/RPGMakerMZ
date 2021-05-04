@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-一時スイッチ Ver0.5.0
+一時スイッチ Ver0.5.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_TempSwitches.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_TempSwitches.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 セーブデータとして保持しない一時スイッチを
@@ -53,17 +59,6 @@ $gameTemp._TempSwitches[1]
 @default 1
 @min 0
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver0.5.0(2021/5/3)
-- 開発版を公開
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

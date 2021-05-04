@@ -1,16 +1,21 @@
 /*:
 @plugindesc
-通貨単位切り替え Ver1.2.1
+通貨単位切り替え Ver1.2.2(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_CurrencyUnit.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_CurrencyUnit.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 2つの通貨単位をプラグインコマンドで切り替えます。
-
 プラグインコマンドで 通貨切り替え を行った場合に通貨単位が切り替わります。
 
 ■ 使用例1（景品交換所）
@@ -107,23 +112,6 @@
 @text 通貨切り替え
 @desc 通貨単位を切り替え
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.1(2021/4/18)
-- スイッチと変数がデフォルトから変更できないバグ修正
-- 購入レートが正しく反映されないバグ修正
-- 説明修正
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

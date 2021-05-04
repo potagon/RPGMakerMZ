@@ -1,10 +1,17 @@
 /*:
 @plugindesc
-全回復コマンドTP回復 Ver1.2.0
+全回復コマンドTP回復 Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Event_TpRecover.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Event_TpRecover.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 イベントコマンド[全回復]で、TPも回復するようにします。
@@ -12,18 +19,6 @@
 TPは、TP持ち越しの特徴がある場合のみ回復します。
 ※ TP持ち越しがない場合は、回復はしていますがリセットされます。
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

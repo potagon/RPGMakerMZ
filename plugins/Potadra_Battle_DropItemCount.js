@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-ドロップアイテム個数表示 Ver1.2.0
+ドロップアイテム個数表示 Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_DropItemCount.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_DropItemCount.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 ドロップアイテムの個数をまとめて表示します。
@@ -30,18 +36,6 @@
 %1: アイコン番号 %2: アイテム名 %3: 個数
 @default \I[%1]%2を%3個手に入れた！
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

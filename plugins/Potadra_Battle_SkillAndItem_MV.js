@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-戦闘スキル・アイテム選択MV風 Ver0.5.0
+戦闘スキル・アイテム選択MV風 Ver0.5.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_SkillAndItem_MV.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_SkillAndItem_MV.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 戦闘中のスキルとアイテム選択をMV風に変更します。
@@ -27,17 +33,6 @@
 @off 表示しない
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver0.5.0(2021/5/3)
-- 開発版を公開
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

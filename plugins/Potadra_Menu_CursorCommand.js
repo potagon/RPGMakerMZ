@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-メニューコマンドカーソル移動追加 Ver1.2.0
+メニューコマンドカーソル移動追加 Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_CursorCommand.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_CursorCommand.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 メニューコマンドに ←→ または、QWキーで同様の処理を追加します。
@@ -41,18 +47,6 @@
 @desc ステータスで←→でもQRキーと同じ動作にする
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

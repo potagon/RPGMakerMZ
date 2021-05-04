@@ -1,22 +1,20 @@
 /*:
 @plugindesc
-被ダメージ時にTPを回復しない Ver1.2.0
+被ダメージ時にTPを回復しない Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_NoChargeTpDamage.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_NoChargeTpDamage.js
 
-@help
-被ダメージ時にTPを回復しないようになります。
-*/
+・アップデート情報
+- アノテーションの整理
 
-/*
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
+@help
+被ダメージ時にTPを回復しないようになります。
 */
 
 /**

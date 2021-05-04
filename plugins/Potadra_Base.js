@@ -1,26 +1,21 @@
 /*:
 @plugindesc
-ベース Ver1.3.1
+ベース Ver1.3.2(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 
-@help
-ほとんどのプラグインで必要になるので、
-必ずダウンロードして他のプラグインの最上部に配置してください。
-*/
+・アップデート情報
+- アノテーションの整理
 
-/*
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
-・Ver1.3.1(2021/4/18)
-- プラグインの導入状態を確認する機能追加
-
-・Ver1.3.0(2021/4/4)
-- プラグイン名変更
+@help
+ほとんどのプラグインで必要になるので、
+必ずダウンロードして他のプラグインの最上部に配置してください。
 */
 
 /**

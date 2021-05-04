@@ -1,15 +1,21 @@
 /*:
 @plugindesc
-セーブ暗号化解除 Ver1.1.1
+セーブ暗号化解除 Ver1.1.2(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Save_NoEncrypt.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Save_NoEncrypt.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
-セーブ内容を暗号化と圧縮しないようにします。
+セーブ内容の暗号化と圧縮をしないように変更します。
 
 このプラグイン導入前のセーブは、読み書き不可能になるので、一度削除するか、
 セーブを実施し、上書きしてください。
@@ -33,20 +39,6 @@
 @off 整形しない
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.1.1(2021/5/3)
-- JSONを整形するプラグインパラメータを追加
-
-・Ver1.1.0(2021/4/4)
-- プラグイン名変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-装備スロット変更 Ver1.2.0
+装備スロット変更 Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Equip_ChangeSlot.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Equip_ChangeSlot.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 装備スロットを複数設定可能にします。
@@ -32,18 +38,6 @@
 装備タイプがデフォルトの場合は、1: 武器 5: 装飾品
 @default ["1", "2", "3", "4", "5", "5"]
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

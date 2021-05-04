@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-マップ戦闘BGM Ver1.1.0
+マップ戦闘BGM Ver1.1.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_MapBgm.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_MapBgm.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 戦闘になったとき、マップのBGMをそのまま使用します。
@@ -20,17 +26,6 @@
 @off 止めない
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.1.0(2021/4/4)
-- プラグイン名変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

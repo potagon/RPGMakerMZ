@@ -1,16 +1,21 @@
 /*:
 @plugindesc
-RPGツクールMZのバグ修正 Ver1.2.0
+RPGツクールMZのバグ修正 Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_BugFix.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_BugFix.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 RPGツクールMZのバグを修正します。
-
 必要ない修正はパラメータで無効に出来ます。
 
 @param FixBattleEnemyDrawItem
@@ -30,18 +35,6 @@ RPGツクールMZのバグを修正します。
 @off 修正しない
 @default false
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

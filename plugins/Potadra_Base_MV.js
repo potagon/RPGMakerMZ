@@ -1,10 +1,17 @@
 /*:
 @plugindesc
-MVベース Ver0.5.0
+MVベース Ver0.5.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base_MV.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base_MV.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 MVベースプラグインです。
@@ -12,15 +19,6 @@ MVベースプラグインです。
 
 RPGツクールMZのコアスクリプトを変更・機能追加しているため、
 競合が起きる可能性が高めです。
-*/
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver0.5.0(2021/4/4)
-- 開発版を公開
 */
 
 /**

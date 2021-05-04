@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-左メニュー Ver0.5.0
+左メニュー Ver0.5.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_Left.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_Left.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 メニューを左側に表示します。
@@ -19,17 +25,6 @@
 @off 右揃え
 @default true
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver0.5.0(2021/5/3)
-- 開発版を公開
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

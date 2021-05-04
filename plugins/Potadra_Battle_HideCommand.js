@@ -1,12 +1,18 @@
 /*:
 @plugindesc
-戦闘コマンド非表示 Ver1.3.1
+戦闘コマンド非表示 Ver1.3.2(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_HideCommand.js
 @base Potadra_Base
-
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_HideCommand.js
+
+・アップデート情報
+- アノテーションの整理
+
+Copyright (c) 2021 ポテトドラゴン
+Released under the MIT License.
+https://opensource.org/licenses/mit-license.php
 
 @help
 戦闘コマンドの中で不要なものを非表示に出来ます。
@@ -52,21 +58,6 @@
 @off 表示する
 @default false
 */
-
-/*
-Copyright (c) 2021 ポテトドラゴン
-Released under the MIT License.
-https://opensource.org/licenses/mit-license.php
-
-・Ver1.3.1(2021/5/3)
-- 攻撃コマンド封印時、無条件でコマンドを非表示にしてしまうバグ修正
-
-・Ver1.3.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
-*/
-
-// パラメータ定義
 (() => {
     'use strict';
 

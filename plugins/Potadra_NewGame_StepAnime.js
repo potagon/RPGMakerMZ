@@ -1,25 +1,21 @@
 /*:
 @plugindesc
-初期足踏みアニメ Ver1.2.0
+初期足踏みアニメ Ver1.2.1(2021/5/4)
 
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_NewGame_StepAnime.js
 @target MZ
 @author ポテトドラゴン
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_NewGame_StepAnime.js
 
-@help
-ニューゲームで開始したときにアクターが足踏みをするようになります。
-*/
+・アップデート情報
+- アノテーションの整理
 
-/*
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
-・Ver1.2.0(2021/4/4)
-- プラグイン名変更
-- インデント変更
+@help
+ニューゲームで開始したときにアクターが足踏みをするようになります。
 */
-
 (() => {
     'use strict';
 
