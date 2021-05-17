@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-戦闘スキル・アイテム選択MV風 Ver0.5.1(2021/5/4)
+戦闘スキル・アイテム選択MV風 Ver0.5.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_SkillAndItem_MV.js
 @base Potadra_Base
@@ -8,14 +8,20 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- 対象選択時にスキル・アイテムウィンドウが閉じなかったバグ修正
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 戦闘中のスキルとアイテム選択をMV風に変更します。
+
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
 @param CancelButtonPosition
 @type boolean
@@ -112,5 +118,15 @@ https://opensource.org/licenses/mit-license.php
             this._statusWindow.hide();
             this._actorCommandWindow.hide();
         }
+    };
+
+    /**
+     * 
+     */
+    const _Scene_Battle_onSelectAction = Scene_Battle.prototype.onSelectAction;
+    Scene_Battle.prototype.onSelectAction = function() {
+        this._skillWindow.hide();
+        this._itemWindow.hide();
+        _Scene_Battle_onSelectAction.apply(this, arguments);
     };
 })();

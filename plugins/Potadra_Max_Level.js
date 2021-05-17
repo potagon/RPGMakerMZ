@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-レベル上限突破 Ver0.12.2(2021/5/4)
+レベル上限突破 Ver0.12.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Level.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 レベルの上限を変更します。
+
+## 使い方
+
 
 @param MaxLevel
 @type number
@@ -95,8 +99,10 @@ https://opensource.org/licenses/mit-license.php
     const SmallFishName  = String(params.SmallFishName || 'ザコ');
     const MobName        = String(params.MobName || 'モブ');
     const LevelUpRecover = Potadra.convertBool(params.LevelUpRecover);
-    const NameDatabase   = Potadra.isPlugin('Potadra_Name_Database');
     const MaxLevelMenu   = Potadra.convertBool(params.MaxLevelMenu);
+
+    // 他プラグイン連携(プラグインの導入有無)
+    const NameDatabase   = Potadra.isPlugin('Potadra_Name_Database');
 
     // プラグインコマンド(レベルの変更)
     PluginManager.registerCommand(plugin_name, "change_level", args => {

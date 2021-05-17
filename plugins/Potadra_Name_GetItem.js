@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテム取得 Ver1.3.2(2021/5/4)
+アイテム取得 Ver1.3.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_GetItem.js
 @base Potadra_Base
@@ -8,15 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-名前からアイテムを取得する
+## 概要
+名前からアイテムを取得する  
 プラグインコマンドを提供します。
+
+## 使い方
+
 
 @command get_item
 @text アイテム取得

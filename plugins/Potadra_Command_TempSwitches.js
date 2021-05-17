@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-一時スイッチ Ver0.5.1(2021/5/4)
+一時スイッチ Ver0.5.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_TempSwitches.js
 @base Potadra_Base
@@ -8,22 +8,22 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-セーブデータとして保持しない一時スイッチを
+## 概要
+セーブデータとして保持しない一時スイッチを  
 操作するプラグインコマンドを追加します。
 
-■ 使い方
-
-一時スイッチは条件分岐のスクリプトに以下の条件を入れることで参照できます。
+## 使い方
+一時スイッチは条件分岐のスクリプトに以下の条件を入れることで参照できます。  
 $gameTemp._TempSwitches[一時スイッチ番号]
 
-例: 一時スイッチ番号1を指定する場合
+例: 一時スイッチ番号1を指定する場合  
 $gameTemp._TempSwitches[1]
 
 @command temp_switch_on

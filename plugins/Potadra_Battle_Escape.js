@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-必ず逃走 Ver1.3.1(2021/5/4)
+必ず逃走 Ver1.3.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_Escape.js
 @base Potadra_Base
@@ -8,14 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 逃走の成功率を100%にします。
+
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
 @param EscapeRatio
 @type number
@@ -30,6 +35,7 @@ https://opensource.org/licenses/mit-license.php
 @type variable
 @text 逃走成功率変数
 @desc 逃走成功率を管理する変数
+なしの場合、逃走成功率で指定した値が逃走成功率になります
 @default 0
 */
 (() => {

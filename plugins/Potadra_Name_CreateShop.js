@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-合成屋 Ver0.7.1(2021/5/4)
+合成屋 Ver0.7.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_CreateShop.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 合成屋を作成出来るようにします。
+
+## 使い方
+
 
 @param MenuName
 @text メニュー表示名

@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-TP初期化0 Ver1.2.1(2021/5/4)
+TP初期化0 Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_InitTp.js
 @base Potadra_Base
@@ -8,16 +8,20 @@ TP初期化0 Ver1.2.1(2021/5/4)
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-戦闘開始時のTPを0にします。
-
+## 概要
+戦闘開始時のTPを0にします。  
 TP持ち越しの特徴がある場合は 0 ではなく、戦闘開始前のTPになります。
+
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
 @param InitTp
 @type number

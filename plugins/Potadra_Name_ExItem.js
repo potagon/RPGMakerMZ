@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテム名参照制御文字 Ver1.1.1(2021/5/4)
+アイテム名参照制御文字 Ver1.1.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_ExItem.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 アイテム名を参照する制御文字 \II を追加します。
+
+## 使い方
+
 */
 (() => {
     'use strict';

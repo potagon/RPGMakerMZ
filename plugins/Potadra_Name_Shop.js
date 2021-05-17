@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-名前ショップ Ver1.2.1(2021/5/4)
+名前ショップ Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Shop.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 名前を指定してショップの処理を呼び出します。
+
+## 使い方
+
 
 @command name_shop_item
 @text 名前ショップ

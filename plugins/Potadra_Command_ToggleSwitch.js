@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-トグルスイッチ Ver1.1.1(2021/5/4)
+トグルスイッチ Ver1.1.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_ToggleSwitch.js
 @base Potadra_Base
@@ -8,15 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-指定したスイッチのON・OFFを交互に切り替える
+## 概要
+指定したスイッチのON・OFFを交互に切り替える  
 プラグインコマンドを提供します。
+
+## 使い方
+
 
 @command toggle_switch
 @text トグルスイッチ

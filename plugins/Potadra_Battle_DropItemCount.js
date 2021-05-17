@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ドロップアイテム個数表示 Ver1.2.1(2021/5/4)
+ドロップアイテム個数表示 Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_DropItemCount.js
 @base Potadra_Base
@@ -8,31 +8,35 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 ドロップアイテムの個数をまとめて表示します。
 
-同じアイテムを複数落としたきの表示が簡易化されます。
+同じアイテムを複数落としたときの表示が簡易化されます。  
 細かい表示内容はパラメータで変更することも出来ます。
 
-■ 導入しない場合のドロップアイテム表示
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
+### 導入前
 ポーションを手に入れた！
 ポーションを手に入れた！
 
-■ 導入した場合のドロップアイテム表示(アイテム名の前にアイコンも表示されます)
-
+### 導入後
 ポーションを2個手に入れた！
+※ アイテム名の前にアイコンも表示されます。
 
 @param ObtainItemMessage
 @type multiline_string
 @text アイテム入手メッセージ
-@desc アイテム獲得時のメッセージ。空文字の場合、表示しません
+@desc アイテム入手時のメッセージ。空文字の場合、表示しません
 %1: アイコン番号 %2: アイテム名 %3: 個数
 @default \I[%1]%2を%3個手に入れた！
 */

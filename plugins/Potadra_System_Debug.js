@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-デバッグ用のプラグイン Ver1.2.1(2021/5/4)
+デバッグ用のプラグイン Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_Debug.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 開発中に便利な機能を追加します。
+
+## 使い方
+
 
 @param SkipPluginLoadError
 @type boolean

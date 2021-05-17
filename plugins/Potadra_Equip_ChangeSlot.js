@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-装備スロット変更 Ver1.2.1(2021/5/4)
+装備スロット変更 Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Equip_ChangeSlot.js
 @base Potadra_Base
@@ -8,21 +8,23 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 装備スロットを複数設定可能にします。
 
-パラメータ(装備スロット)に装備タイプを設定することで、
-装飾品を2つにするなど装備スロットを複数にすることが出来ます。
+## 使い方
+パラメータ(装備スロット)に装備タイプを設定することで、  
+装飾品を2つにするなど装備スロットを複数にすることが出来ます。  
 ※ 導入時の設定は、装飾品が2つになる設定です。
 
-・装備タイプの設定方法について
-データベースの「タイプ」から設定できます。
+### 装備タイプの設定方法について
+データベースの「タイプ」から設定できます。  
 以下は、設定を変更していない場合の番号です。
 
 1. 武器

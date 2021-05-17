@@ -1,21 +1,31 @@
 /*:
 @plugindesc
-ベース Ver1.3.2(2021/5/4)
+ベース Ver1.3.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- libs 以下のファイルを読み取る機能追加
+- スイッチ判定追加
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-ほとんどのプラグインで必要になるので、
+## 概要
+ベースプラグインです。
+
+ほとんどのプラグインで必要になるので、  
 必ずダウンロードして他のプラグインの最上部に配置してください。
+
+## 使い方
+1. 他のプラグインの最上部に配置してください。
+
+上記以外に設定は必要ありません。
 */
 
 /**
@@ -36,11 +46,30 @@ class Potadra {
     /**
      * プラグインの導入状態確認
      *
-     * @param {string} plugin_name - 導入状態を確認するプラグイン名
+     * @param {string} plugin_name - 導入状態を確認するプラグイン名(.js の記載は除く)
      * @returns {boolean} プラグインの導入有無
      */
     static isPlugin(plugin_name) {
         return PluginManager._scripts.includes(plugin_name);
+    }
+
+    /**
+     * libs 以下にライブラリを追加
+     *
+     * @param {string} lib_name - 追加するライブラリ名(.js の記載は除く)
+     */
+    static addLib(lib_name) {
+        const url = 'js/libs/' + lib_name + '.js';
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        script.async = false;
+        script.defer = true;
+        script.onload = main.onScriptLoad.bind(this);
+        script.onerror = main.onScriptError.bind(this);
+        script._url = url;
+        document.body.appendChild(script);
+        main.numScripts = scriptUrls.length + 1;
     }
 
     /**
@@ -83,6 +112,20 @@ class Potadra {
             arr.push(String(datum));
         }
         return arr;
+    }
+
+    /**
+     * スイッチ判定
+     * 
+     * @param {number} switch_no - スイッチ番号
+     * @returns {boolean} 
+     */
+    static checkSwitch(switch_no) {
+        if (switch_no === 0 || $gameSwitches.value(switch_no) === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

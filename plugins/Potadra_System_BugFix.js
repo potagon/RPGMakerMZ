@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-RPGツクールMZのバグ修正 Ver1.2.1(2021/5/4)
+RPGツクールMZのバグ修正 Ver1.2.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_BugFix.js
 @base Potadra_Base
@@ -8,15 +8,19 @@ RPGツクールMZのバグ修正 Ver1.2.1(2021/5/4)
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-RPGツクールMZのバグを修正します。
+## 概要
+RPGツクールMZのバグを修正します。  
 必要ない修正はパラメータで無効に出来ます。
+
+## 使い方
+
 
 @param FixBattleEnemyDrawItem
 @type boolean

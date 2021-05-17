@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-名前データベース Ver0.8.1(2021/5/4)
+名前データベース Ver0.8.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Database.js
 @base Potadra_Base
@@ -8,15 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 データベースを入れ替えても編集が必要なくなる
 メモでの名前参照データベースを提供します。
+
+## 使い方
+
 
 @param ActorEquip
 @type boolean

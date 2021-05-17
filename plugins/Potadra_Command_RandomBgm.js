@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-BGMランダム再生 Ver1.3.1(2021/5/4)
+BGMランダム再生 Ver1.3.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_RandomBgm.js
 @base Potadra_Base
@@ -8,14 +8,19 @@ BGMランダム再生 Ver1.3.1(2021/5/4)
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- 再生できるBGMが一つもないとき、BGMを再生しないように変更
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 プラグインコマンド指定したBGMの中からランダムにBGMを再生します。
+
+## 使い方
+
 
 @param TitleRandom
 @type boolean
@@ -126,13 +131,16 @@ https://opensource.org/licenses/mit-license.php
                 }
             }
 
-            const i        = Math.randomInt(exist_bgm_lists.length);
-            const bgm_info = exist_bgm_lists[i];
-            const bgm      = String(bgm_info.bgm);
-            const volume   = Number(bgm_info.volume || 90);
-            const pitch    = Number(bgm_info.pitch || 100);
-            const pan      = Number(bgm_info.pan || 0);
-            AudioManager.playBgm({"name": bgm, "volume": volume, "pitch": pitch, "pan": pan});
+            // 一つも再生可能なBGMがない場合は、BGMを再生しない。
+            if (exist_bgm_lists.length > 0) {
+                const i        = Math.randomInt(exist_bgm_lists.length);
+                const bgm_info = exist_bgm_lists[i];
+                const bgm      = String(bgm_info.bgm);
+                const volume   = Number(bgm_info.volume || 90);
+                const pitch    = Number(bgm_info.pitch || 100);
+                const pan      = Number(bgm_info.pan || 0);
+                AudioManager.playBgm({"name": bgm, "volume": volume, "pitch": pitch, "pan": pan});
+            }
         }
     }
 

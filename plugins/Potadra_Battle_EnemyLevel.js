@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-敵キャラレベル追加 Ver0.10.1(2021/5/4)
+敵キャラレベル追加 Ver0.10.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_EnemyLevel.js
 @base Potadra_Base
@@ -8,14 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- 行動パターンをメモ欄で指定出来る機能追加
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 敵キャラにレベルを追加します。
+
+## 使い方
+
 
 @param ExpMetaName
 @text 経験値タグ
@@ -188,7 +193,7 @@ https://opensource.org/licenses/mit-license.php
                     drops = data[i].split(',');
                     let level = this.level();
 
-                    // 設定されているレベル以上なら該当アイテム判定。
+                    // 設定されているレベル以上なら該当アイテム判定
                     if ( level >= Number(drops[0]) ) {
                         let percent       = Number(drops[3]);
                         let level_percent = (Number(drops[4]) * level);
@@ -207,16 +212,6 @@ https://opensource.org/licenses/mit-license.php
     };
 
     /**
-     * 行動条件合致判定［パーティレベル］
-     *
-     * @param {} param -
-     * @returns {}
-     */
-    Game_Enemy.prototype.meetsPartyLevelCondition = function(param) {
-        return $gameParty.highestLevel() >= param * 10; // レベル1 => レベル100, レベル10 => レベル1000
-    };
-
-    /**
      * 表示名の取得
      *
      * @returns {}
@@ -228,6 +223,76 @@ https://opensource.org/licenses/mit-license.php
             name = name + 'Lv.' + level;
         }
         return name;
+    };
+
+    /**
+     * 行動条件合致判定
+     *     action : RPG::Enemy::Action
+     *
+     * @param {} action - 
+     * @returns {} 
+     */
+    function meetsCondition(conditionType) {
+        switch (conditionType) {
+            case 'ターン':
+                return 1;
+            case 'HP':
+                return 2;
+            case 'MP':
+                return 3;
+            case 'ステート':
+                return 4;
+            case 'パーティーLV':
+                return 5;
+            case 'スイッチ':
+                return 6;
+            default:
+                return 0;
+        }
+    };
+
+    /**
+     * 戦闘行動の作成
+     */
+    Game_Enemy.prototype.makeActions = function() {
+        Game_Battler.prototype.makeActions.call(this);
+        if (this.numActions() > 0) {
+            // 割り込み
+            const data = Potadra.metaData(this.enemy().meta['行動']);
+
+            let actions = [];
+            if (data) {
+                let action = null;
+    
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i]) {
+                        action = data[i].split(',');
+                        let level = this.level();
+
+                        // 設定されているレベル以上なら該当行動パターン判定
+                        if ( level >= Number(action[0]) ) {
+                            actions.push(
+                                {
+                                    skillId: Potadra.nameSearch($dataSkills, action[1].trim()),
+                                    rating: Number(action[2] || 5),
+                                    conditionType: meetsCondition(action[3]),
+                                    conditionParam1: Number(action[4] || 0),
+                                    conditionParam2: Number(action[5] || 0)
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+
+            let actionList = this.enemy().actions.concat(actions).filter(a =>
+                this.isActionValid(a)
+            );
+            if (actionList.length > 0) {
+                this.selectAllActions(actionList);
+            }
+        }
+        this.setActionState("waiting");
     };
 
 

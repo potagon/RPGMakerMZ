@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-常時マップ名表示 Ver1.3.1(2021/5/4)
+常時マップ名表示 Ver1.3.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Map_EternalName.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 マップ名を常に表示します。
+
+## 使い方
+
 
 @param DisableMapNameSwitch
 @type switch

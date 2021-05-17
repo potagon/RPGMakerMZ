@@ -2,6 +2,7 @@
 plugins/*
 !Potadra*
 plugins/Potadra_Command_TempVariables.js
+plugins/Potadra_Event_Info.js
 plugins/Potadra_Map_Minecraft.js
 plugins/Potadra_Max.js
 plugins/Potadra_Max_LevelCap.js

@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-セーブ暗号化解除 Ver1.1.2(2021/5/4)
+セーブ暗号化解除 Ver1.1.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Save_NoEncrypt.js
 @base Potadra_Base
@@ -8,19 +8,24 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 セーブ内容の暗号化と圧縮をしないように変更します。
 
-このプラグイン導入前のセーブは、読み書き不可能になるので、一度削除するか、
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
+
+このプラグイン導入前のセーブは、読み書き不可能になるので、一度削除するか、  
 セーブを実施し、上書きしてください。
 
-また、圧縮をしないため、ゲームを公開する前にプラグインをOFFもしくは、
+また、圧縮をしないため、ゲームを公開する前にプラグインをOFFもしくは、  
 削除することをおすすめします。
 
 @param PlayTest

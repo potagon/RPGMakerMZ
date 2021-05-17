@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-左メニュー Ver0.5.1(2021/5/4)
+左メニュー Ver0.5.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_Left.js
 @base Potadra_Base
@@ -8,14 +8,19 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 メニューを左側に表示します。
+
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
 @param PageButtonPosition
 @type boolean

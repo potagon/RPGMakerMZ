@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-戦闘前後に全回復 Ver1.3.1(2021/5/4)
+戦闘前後に全回復 Ver1.3.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_Recover.js
 @base Potadra_Base
@@ -8,21 +8,26 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 戦闘の開始と終了時に全回復します。
 
-回復する対象は(HP・MP・TP・ステート)です。
-これらは、設定で変更することができます。
+回復する対象は(HP・MP・TP・ステート)です。  
+これらは、設定で変更することができます。  
 また、スイッチで全回復するかを任意に変更することもできます。
 
-TPは、TP持ち越しの特徴がある場合のみ回復します。
+TPは、TP持ち越しの特徴がある場合のみ回復します。  
 ※ TP持ち越しがない場合は、回復はしていますがリセットされます。
+
+## 使い方
+初期設定は必要ありません。  
+プラグイン導入だけで動作します。
 
 @param BattleStartRecover
 @type boolean

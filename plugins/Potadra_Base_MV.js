@@ -1,24 +1,34 @@
 /*:
 @plugindesc
-MVベース Ver0.5.1(2021/5/4)
+MVベース Ver0.5.2(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base_MV.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ウィンドウ幅の取得(windowWidth)を追加
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
-MVベースプラグインです。
-ある程度MVのプラグインをそのまま動かせるようになります。
+## 概要
+MVベースプラグインです。  
+ある程度MVのプラグインをそのまま動かせるようになります。  
+※ コアスクリプトを変更・機能追加しているため、競合が起きる可能性が高めです。
 
-RPGツクールMZのコアスクリプトを変更・機能追加しているため、
-競合が起きる可能性が高めです。
+## 使い方
+1. 使用したいMVのプラグインより上部に配置してください。
+
+上記以外に設定は必要ありません。  
+開発途中のプラグインであるため、動作するMVプラグインは少ないです。
+
+本プラグインは、MZのプラグインへの影響が少なくなるように作られています。  
+そのため、プラグインが完成したとしても、  
+どうしても動かないMVプラグインが発生する場合があります。
 */
 
 /**
@@ -405,6 +415,92 @@ RPGツクールMZのコアスクリプトを変更・機能追加しているた
         this.y = y;
         this.width = width;
         this.height = height;
+    };
+
+    // MZ では、windowWidth が以下以外ないので追加
+    // Window_NameBox(名前ウィンドウはMZの追加機能なので、MVにはなし)
+    // Window_ChoiceList
+    // Window_NumberInput
+
+    //--------------------------------------------------------------------------
+    // ● ウィンドウ幅の取得
+    //--------------------------------------------------------------------------
+    Window_Command.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_Gold.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_MenuCommand.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_MenuStatus.prototype.windowWidth = function() {
+        return Graphics.boxWidth - 240;
+    };
+    Window_ItemCategory.prototype.windowWidth = function() {
+        return Graphics.boxWidth;
+    };
+    Window_SkillType.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_EquipStatus.prototype.windowWidth = function() {
+        return 312;
+    };
+    Window_EquipCommand.prototype.windowWidth = function() {
+        return this._windowWidth;
+    };
+    Window_Options.prototype.windowWidth = function() {
+        return 400;
+    };
+    Window_ShopCommand.prototype.windowWidth = function() {
+        return this._windowWidth;
+    };
+    Window_ShopBuy.prototype.windowWidth = function() {
+        return 456;
+    };
+    Window_ShopNumber.prototype.windowWidth = function() {
+        return 456;
+    };
+    Window_NameEdit.prototype.windowWidth = function() {
+        return 480;
+    };
+    // MZで定義されているのでコメントアウト(作りはかなり違う)
+    // Window_ChoiceList.prototype.windowWidth = function() {
+    //     var width = this.maxChoiceWidth() + this.padding * 2;
+    //     return Math.min(width, Graphics.boxWidth);
+    // };
+    // Window_NumberInput.prototype.windowWidth = function() {
+    //    return this.maxCols() * this.itemWidth() + this.padding * 2;
+    // };
+    Window_Message.prototype.windowWidth = function() {
+        return Graphics.boxWidth;
+    };
+    Window_MapName.prototype.windowWidth = function() {
+        return 360;
+    };
+    Window_BattleLog.prototype.windowWidth = function() {
+        return Graphics.boxWidth;
+    };
+    Window_PartyCommand.prototype.windowWidth = function() {
+        return 192;
+    };
+    Window_ActorCommand.prototype.windowWidth = function() {
+        return 192;
+    };
+    Window_BattleStatus.prototype.windowWidth = function() {
+        return Graphics.boxWidth - 192;
+    };
+    Window_BattleEnemy.prototype.windowWidth = function() {
+        return Graphics.boxWidth - 192;
+    };
+    Window_TitleCommand.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_GameEnd.prototype.windowWidth = function() {
+        return 240;
+    };
+    Window_DebugRange.prototype.windowWidth = function() {
+        return 246;
     };
 
 })();

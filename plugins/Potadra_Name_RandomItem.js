@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ランダムアイテム入手 Ver1.2.2(2021/5/4)
+ランダムアイテム入手 Ver1.2.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_RandomItem.js
 @base Potadra_Base
@@ -8,14 +8,18 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 プラグインコマンド指定したアイテムの中からランダムにアイテムを入手します。
+
+## 使い方
+
 
 @param GoldIconIndex
 @type number
@@ -380,7 +384,7 @@ https://opensource.org/licenses/mit-license.php
     const GoldIconIndex  = Number(params.GoldIconIndex || 314);
     const GoldMessage    = String(params.GoldMessage) || '\I[%1]%2%3手に入れた！';
 
-    // プラグインの導入有無
+    // 他プラグイン連携(プラグインの導入有無)
     const GetInformation = Potadra.isPlugin('GetInformation');
 
     // プラグインコマンド(ランダムアイテム取得)

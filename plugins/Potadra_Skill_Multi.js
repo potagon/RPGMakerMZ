@@ -1,21 +1,27 @@
 /*:
 @plugindesc
-スキル複数追加 Ver1.2.1(2021/5/4)
+スキル複数追加 Ver1.2.3(2021/5/17)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Skill_Multi.js
 @base Potadra_Base
+@orderAfter Potadra_Name_Skill
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- アノテーションの整理
+- Potadra_Name_Skill との連携
+- ヘルプ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
 https://opensource.org/licenses/mit-license.php
 
 @help
+## 概要
 スキルを複数覚えることを可能にします。
+
+## 使い方
+
 
 @param SkillTypeId
 @type number
@@ -91,6 +97,9 @@ https://opensource.org/licenses/mit-license.php
         HideSkills = JSON.parse(params.HideSkills);
     }
 
+    // 他プラグイン連携(プラグインの導入有無)
+    const NameSkill = Potadra.isPlugin('Potadra_Name_Skill');
+
     /**
      * This section contains some methods that will be added to the standard
      * Javascript objects.
@@ -132,7 +141,12 @@ https://opensource.org/licenses/mit-license.php
     Game_Actor.prototype.isLearnedSkill = function(skillId) {
         const skill = $dataSkills[skillId];
         if (skill.stypeId !== SkillTypeId || ExcludeSkills.includes(skill.name)) {
-            return this._skills.includes(skillId);
+            if (NameSkill) {
+                const name = Potadra.search($dataSkills, skillId, 'name');
+                return this._skills.includes(name);
+            } else {
+                return this._skills.includes(skillId);
+            }
         } else {
             return false;
         }
@@ -145,7 +159,15 @@ https://opensource.org/licenses/mit-license.php
      */
     Game_Actor.prototype.learnSkill = function(skillId) {
         if (!this.isLearnedSkill(skillId)) {
-            this._skills.push(skillId);
+            let skills = null;
+            if (NameSkill) {
+                const name = Potadra.search($dataSkills, skillId, 'name');
+                this._skills.push(name);
+                skills = this.skillIds();
+            } else {
+                this._skills.push(skillId);
+                skills = this._skills;
+            }
             // ここで複合スキル判定
             for (let i = 0; i < CompositeSkills.length; i++) {
                 let composite_data = JSON.parse(CompositeSkills[i]);
@@ -154,7 +176,7 @@ https://opensource.org/licenses/mit-license.php
                 let count          = Number(composite_data.count || 2);
                 let skill_count    = 0;
 
-                for (const id of this._skills) {
+                for (const id of skills) {
                     let skill = $dataSkills[id];
 
                     // 複合前のスキルがあったら、複合判定
@@ -169,8 +191,13 @@ https://opensource.org/licenses/mit-license.php
                                 for (let j = 0; j < skill_count; j++) {
                                     this.forgetSkill(id);
                                 }
-                                // 複合スキルを覚える
-                                this._skills.push(skill_id);
+                                if (NameSkill) {
+                                    const skill_name = Potadra.search($dataSkills, skill_id, 'name');
+                                    this._skills.push(skill_name);
+                                } else {
+                                    // 複合スキルを覚える
+                                    this._skills.push(skill_id);
+                                }
                             }
                         }
                     }
@@ -186,7 +213,12 @@ https://opensource.org/licenses/mit-license.php
      * @param {} skillId -
      */
     Game_Actor.prototype.forgetSkill = function(skillId) {
-        this._skills.destroy(skillId);
+        if (NameSkill) {
+            const name = Potadra.search($dataSkills, skillId, 'name');
+            this._skills.destroy(name);
+        } else {
+            this._skills.destroy(skillId);
+        }
     };
 
     /**
@@ -196,7 +228,12 @@ https://opensource.org/licenses/mit-license.php
      */
     Game_Actor.prototype.skills = function() {
         const list = [];
-        let all_skills = this._skills.concat(this.addedSkills());
+        let all_skills = null;
+        if (NameSkill) {
+            all_skills = this.skillIds().concat(this.addedSkills());
+        } else {
+            all_skills = this._skills.concat(this.addedSkills());
+        }
 
         // 隠しスキル判定
         for (let i = 0; i < HideSkills.length; i++) {
