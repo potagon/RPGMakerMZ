@@ -10,6 +10,7 @@ plugins/Potadra_Name_Id.js
 plugins/Potadra_Name_ItemSkill.js
 plugins/Potadra_Name_Switch.js
 plugins/Potadra_Save_StartDelete.js
+plugins/Potadra_Skill_RepeatAnimation.js
 plugins/Potadra_Test.js
 plugins/Potadra_Test_Window.js
 plugins/Potadra_Window_Story.js
