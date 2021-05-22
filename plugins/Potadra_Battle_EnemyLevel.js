@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-敵キャラレベル追加 Ver0.10.2(2021/5/17)
+敵キャラレベル追加 Ver0.10.3(2021/5/23)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_EnemyLevel.js
 @base Potadra_Base
@@ -8,8 +8,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- 行動パターンをメモ欄で指定出来る機能追加
-- ヘルプ修正
+- リファクタ
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -249,7 +248,7 @@ https://opensource.org/licenses/mit-license.php
             default:
                 return 0;
         }
-    };
+    }
 
     /**
      * 戦闘行動の作成
