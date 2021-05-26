@@ -1,14 +1,15 @@
 /*:
 @plugindesc
-価格の最大値変更 Ver1.0.2(2021/5/17)
+価格の最大値変更 Ver1.0.3(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Price.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

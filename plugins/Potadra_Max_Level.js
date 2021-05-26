@@ -1,14 +1,15 @@
 /*:
 @plugindesc
-レベル上限突破 Ver0.12.4(2021/5/23)
+レベル上限突破 Ver0.12.5(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Level.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- リファクタ
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

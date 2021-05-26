@@ -1,14 +1,17 @@
 /*:
 @plugindesc
-MVベース Ver0.5.2(2021/5/17)
+MVベース Ver0.6.0(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base_MV.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ウィンドウ幅の取得(windowWidth)を追加
-- ヘルプ修正
+- 動かせるプラグインの追加
+
+・TODO
+- Argument must be a Rectangle を解決するオプション
+- Window のずれを解決するオプション
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -422,9 +425,9 @@ MVベースプラグインです。
     // Window_ChoiceList
     // Window_NumberInput
 
-    //--------------------------------------------------------------------------
-    // ● ウィンドウ幅の取得
-    //--------------------------------------------------------------------------
+    /*
+     * ウィンドウ幅の取得
+     */
     Window_Command.prototype.windowWidth = function() {
         return 240;
     };
@@ -503,6 +506,281 @@ MVベースプラグインです。
         return 246;
     };
 
+    // MZ では、windowHeight が以下以外ないので追加
+    // Window_NameBox(名前ウィンドウはMZの追加機能なので、MVにはなし)
+    // Window_ChoiceList(MVには定義なし)
+    // Window_NumberInput
+
+    /*
+     * ウィンドウ高さの取得
+     */
+    Window_Command.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_Gold.prototype.windowHeight = function() {
+        return this.fittingHeight(1);
+    };
+    Window_MenuStatus.prototype.windowHeight = function() {
+        return Graphics.boxHeight;
+    };
+    Window_EquipStatus.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_Options.prototype.windowHeight = function() {
+        return this.fittingHeight(Math.min(this.numVisibleRows(), 12));
+    };
+    Window_NameEdit.prototype.windowHeight = function() {
+        return this.fittingHeight(4);
+    };
+    Window_NameInput.prototype.windowHeight = function() {
+        return this.fittingHeight(9);
+    };
+    Window_MapName.prototype.windowHeight = function() {
+        return this.fittingHeight(1);
+    };
+    // MZで定義されているのでコメントアウト(作りはかなり違う)
+    // Window_NumberInput.prototype.windowHeight = function() {
+    //     return this.fittingHeight(1);
+    // };
+    Window_EventItem.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_Message.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_MapName.prototype.windowHeight = function() {
+        return this.fittingHeight(1);
+    };
+    Window_BattleLog.prototype.windowHeight = function() {
+        return this.fittingHeight(this.maxLines());
+    };
+    Window_BattleStatus.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_BattleEnemy.prototype.windowHeight = function() {
+        return this.fittingHeight(this.numVisibleRows());
+    };
+    Window_DebugRange.prototype.windowHeight = function() {
+        return Graphics.boxHeight;
+    };
+
+    // drawHorzLine
+    // Window_ShopNumber(MVには定義なし)
+    // MZ では、windowHeight が以下以外ないので追加
+    /*
+     * 水平線の描画
+     */
+    Window_Status.prototype.drawHorzLine = function(y) {
+        var lineY = y + this.lineHeight() / 2 - 1;
+        this.contents.paintOpacity = 48;
+        this.contents.fillRect(0, lineY, this.contentsWidth(), 2, this.lineColor());
+        this.contents.paintOpacity = 255;
+    };
+
+    /*
+     * 水平線の色を取得
+     */
+    Window_Status.prototype.lineColor = function() {
+        return this.normalColor();
+    };
+    Window_Status.prototype.maxEquipmentLines = function() {
+        return 6;
+    };
+    
+    /*
+     * ブロック 4 の描画
+     */
+    Window_Status.prototype.drawBlock4 = function(y) {
+        this.drawProfile(6, y);
+    };
+    Window_Status.prototype.drawProfile = function(x, y) {
+        this.drawTextEx(this._actor.profile(), x, y);
+    };
+
+    /*
+    * 装備スロットの名前を取得
+    */
+    Window_EquipSlot.prototype.slotName = function(index) {
+        var slots = this._actor.equipSlots();
+        return this._actor ? $dataSystem.equipTypes[slots[index]] : '';
+    };
+
+    // MZ では、numVisibleRows が以下以外ないので追加
+    // Window_MenuStatus(MVと同じ)
+    // Window_SavefileList(MVには定義なし)
+    // Window_ChoiceList
+    /*
+     * 表示行数の取得
+     */
+    Window_Command.prototype.numVisibleRows = function() {
+        return Math.ceil(this.maxItems() / this.maxCols());
+    };
+    Window_HorzCommand.prototype.numVisibleRows = function() {
+        return 1;
+    };
+    Window_MenuCommand.prototype.numVisibleRows = function() {
+        return this.maxItems();
+    };
+    // MZと同じなので定義しない
+    // Window_MenuStatus.prototype.numVisibleRows = function() {
+    //     return 4;
+    // };
+    Window_SkillType.prototype.numVisibleRows = function() {
+        return 4;
+    };
+    Window_EquipStatus.prototype.numVisibleRows = function() {
+        return 7;
+    };
+    // MZと全く違うのでコメントアウト
+    /* Window_ChoiceList.prototype.numVisibleRows = function() {
+        var messageY = this._messageWindow.y;
+        var messageHeight = this._messageWindow.height;
+        var centerY = Graphics.boxHeight / 2;
+        var choices = $gameMessage.choices();
+        var numLines = choices.length;
+        var maxLines = 8;
+        if (messageY < centerY && messageY + messageHeight > centerY) {
+            maxLines = 4;
+        }
+        if (numLines > maxLines) {
+            numLines = maxLines;
+        }
+        return numLines;
+    };*/
+    Window_EventItem.prototype.numVisibleRows = function() {
+        return 4;
+    };
+    Window_Message.prototype.numVisibleRows = function() {
+        return 4;
+    };
+    Window_PartyCommand.prototype.numVisibleRows = function() {
+        return 4;
+    };
+    Window_ActorCommand.prototype.numVisibleRows = function() {
+        return 4;
+    };
+    Window_BattleStatus.prototype.numVisibleRows = function() {
+        return 4;
+    };
+
+    /**
+     * アクターの歩行グラフィック描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     */
+    Window_Base.prototype.drawActorCharacter = function(actor, x, y) {
+        this.drawCharacter(actor.characterName(), actor.characterIndex(), x, y);
+    };
+
+    /**
+     * アクターの顔グラフィック描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     * @param {} width - 
+     * @param {} height - 
+     */
+    Window_Base.prototype.drawActorFace = function(actor, x, y, width, height) {
+        this.drawFace(actor.faceName(), actor.faceIndex(), x, y, width, height);
+    };
+
+    /**
+     * 名前の描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     * @param {} width - 
+     */
+    Window_Base.prototype.drawActorName = function(actor, x, y, width) {
+        width = width || 168;
+        this.changeTextColor(this.hpColor(actor));
+        this.drawText(actor.name(), x, y, width);
+    };
+
+    /**
+     * 職業の描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     * @param {} width - 
+     */
+    Window_Base.prototype.drawActorClass = function(actor, x, y, width) {
+        width = width || 168;
+        this.resetTextColor();
+        this.drawText(actor.currentClass().name, x, y, width);
+    };
+
+    /**
+     * 二つ名の描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     * @param {} width - 
+     */
+    Window_Base.prototype.drawActorNickname = function(actor, x, y, width) {
+        width = width || 270;
+        this.resetTextColor();
+        this.drawText(actor.nickname(), x, y, width);
+    };
+
+    /**
+     * レベルの描画
+     *
+     * @param {} actor - 
+     * @param {} x - 
+     * @param {} y - 
+     */
+    Window_Base.prototype.drawActorLevel = function(actor, x, y) {
+        this.changeTextColor(this.systemColor());
+        this.drawText(TextManager.levelA, x, y, 48);
+        this.resetTextColor();
+        this.drawText(actor.level, x + 84, y, 36, 'right');
+    };
+
+    /*
+     * ステートおよび強化／弱体のアイコンを描画
+     */
+    Window_Base.prototype.drawActorIcons = function(actor, x, y, width) {
+        width = width || 144;
+        var icons = actor.allIcons().slice(0, Math.floor(width / Window_Base._iconWidth));
+        for (var i = 0; i < icons.length; i++) {
+            this.drawIcon(icons[i], x + Window_Base._iconWidth * i, y + 2);
+        }
+    };
+
+    /**
+     * Checks whether the browser can play ogg files.
+     *
+     * @static
+     * @method canPlayOgg
+     * @return {Boolean} True if the browser can play ogg files
+     */
+    WebAudio.canPlayOgg = function() {
+        if (!this._initialized) {
+            this.initialize();
+        }
+        return !!this._canPlayOgg;
+    };
+
+    /**
+     * Checks whether the browser can play m4a files.
+     *
+     * @static
+     * @method canPlayM4a
+     * @return {Boolean} True if the browser can play m4a files
+     */
+    WebAudio.canPlayM4a = function() {
+        if (!this._initialized) {
+            this.initialize();
+        }
+        return !!this._canPlayM4a;
+    };
 })();
 
 // ImageCache 復活

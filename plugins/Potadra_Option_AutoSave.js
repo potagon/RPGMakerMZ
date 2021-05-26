@@ -1,14 +1,13 @@
 /*:
 @plugindesc
-オートセーブオプション Ver0.5.0(2021/5/23)
+オートセーブオプション Ver0.5.1(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Option_AutoSave.js
-@base Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 開発版を公開
+- ベースプラグイン(Potadra_Base.js)が必要なかったのでアノテーションを削除
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

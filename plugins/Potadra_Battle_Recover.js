@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-戦闘前後に全回復 Ver1.3.2(2021/5/17)
+戦闘前後に全回復 Ver1.3.3(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_Recover.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- リファクタ
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -166,7 +168,7 @@ TP持ち越しの特徴がある場合のみ有効
      * 戦闘開始
      */
     if(BattleStartRecover) {
-        if(StartRecoverSwitch === 0 || $gameSwitches.value(StartRecoverSwitch) === true) {
+        if(Potadra.checkSwitch(StartRecoverSwitch)) {
             const _BattleManager_startBattle = BattleManager.startBattle;
             BattleManager.startBattle = function() {
                 $gameParty.battleMembers().forEach(function(actor) {
@@ -183,7 +185,7 @@ TP持ち越しの特徴がある場合のみ有効
      * @param {} result - 結果（0:勝利 1:逃走 2:敗北）
      */
     if(BattleEndRecover) {
-        if(EndRecoverSwitch === 0 || $gameSwitches.value(EndRecoverSwitch) === true) {
+        if(Potadra.checkSwitch(EndRecoverSwitch)) {
             const _BattleManager_endBattle = BattleManager.endBattle;
             BattleManager.endBattle = function(result) {
                 $gameParty.battleMembers().forEach(function(actor) {

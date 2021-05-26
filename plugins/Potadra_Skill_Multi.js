@@ -1,16 +1,16 @@
 /*:
 @plugindesc
-スキル複数追加 Ver1.2.3(2021/5/17)
+スキル複数追加 Ver1.2.4(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Skill_Multi.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @orderAfter Potadra_Name_Skill
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- Potadra_Name_Skill との連携
-- ヘルプ修正
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

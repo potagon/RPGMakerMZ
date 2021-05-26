@@ -1,15 +1,16 @@
 /*:
 @plugindesc
-スキル名前保存 Ver0.5.0(2021/5/17)
+スキル名前保存 Ver0.5.1(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Skill.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @orderBefore Potadra_Skill_Multi
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 開発版を公開
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

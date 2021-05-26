@@ -1,14 +1,17 @@
 /*:
 @plugindesc
-敵キャラレベル追加 Ver0.10.3(2021/5/23)
+敵キャラレベル追加 Ver0.11.0(2021/5/27)
 
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Battle_EnemyLevel.js
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Enemy_Level.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- リファクタ
+- 行動にて、レベル上限を設定できるように修正
+- プラグイン名変更
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -252,6 +255,9 @@ https://opensource.org/licenses/mit-license.php
 
     /**
      * 戦闘行動の作成
+     *
+     * @example <行動:0,0,攻撃
+     *                1,10,ファイア>
      */
     Game_Enemy.prototype.makeActions = function() {
         Game_Battler.prototype.makeActions.call(this);
@@ -268,15 +274,15 @@ https://opensource.org/licenses/mit-license.php
                         action = data[i].split(',');
                         let level = this.level();
 
-                        // 設定されているレベル以上なら該当行動パターン判定
-                        if ( level >= Number(action[0]) ) {
+                        // 設定されているレベル範囲内なら該当行動パターン判定(上限はレベル0なら無視される)
+                        if ( Number(action[0]) <= level && (level === 0 || level <= Number(action[1])) ) {
                             actions.push(
                                 {
-                                    skillId: Potadra.nameSearch($dataSkills, action[1].trim()),
-                                    rating: Number(action[2] || 5),
-                                    conditionType: meetsCondition(action[3]),
-                                    conditionParam1: Number(action[4] || 0),
-                                    conditionParam2: Number(action[5] || 0)
+                                    skillId: Potadra.nameSearch($dataSkills, action[2].trim()),
+                                    rating: Number(action[3] || 5),
+                                    conditionType: meetsCondition(action[4]),
+                                    conditionParam1: Number(action[5] || 0),
+                                    conditionParam2: Number(action[6] || 0)
                                 }
                             );
                         }

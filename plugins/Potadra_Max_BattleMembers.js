@@ -1,14 +1,15 @@
 /*:
 @plugindesc
-バトルメンバーの最大数変更 Ver1.2.2(2021/5/17)
+バトルメンバーの最大数変更 Ver1.2.3(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_BattleMembers.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

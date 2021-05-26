@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-合成屋 Ver0.7.2(2021/5/17)
+合成屋 Ver0.7.3(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_CreateShop.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- リファクタ(class記法に変更)
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -178,7 +180,7 @@ https://opensource.org/licenses/mit-license.php
     const MiniWindow = Potadra.convertBool(params.MiniWindow);
     const SubCommand = Potadra.convertBool(params.SubCommand);
 
-    // プラグインコマンド(プラグインコマンド名)
+    // プラグインコマンド(合成屋)
     PluginManager.registerCommand(plugin_name, "create_shop", args => {
         const good_lists = JSON.parse(args.goods);
         const buy_only   = Potadra.convertBool(args.buyOnly);
@@ -284,131 +286,103 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Window_CreateShopCommand() {
-        this.initialize(...arguments);
+    class Window_CreateShopCommand extends Window_ShopCommand {
+        /**
+         * 桁数の取得
+         *
+         * @returns {number} 桁数
+         */
+        maxCols() {
+            return 2;
+        }
+
+        /**
+         * コマンドリストの作成
+         */
+        makeCommandList() {
+            this.addCommand(BuyName, "buy");
+            // this.addCommand(SellName, "sell", !this._purchaseOnly);
+            this.addCommand(CancelName, "cancel");
+        }
     }
-
-    Window_CreateShopCommand.prototype = Object.create(Window_ShopCommand.prototype);
-    Window_CreateShopCommand.prototype.constructor = Window_CreateShopCommand;
-
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_CreateShopCommand.prototype.initialize = function(rect) {
-        Window_ShopCommand.prototype.initialize.apply(this, arguments);
-    };
-
-    /**
-     * 桁数の取得
-     *
-     * @returns {number} 桁数
-     */
-    Window_CreateShopCommand.prototype.maxCols = function() {
-        return 2;
-    };
-
-    /**
-     * コマンドリストの作成
-     */
-    Window_CreateShopCommand.prototype.makeCommandList = function() {
-        this.addCommand(BuyName, "buy");
-        // this.addCommand(SellName, "sell", !this._purchaseOnly);
-        this.addCommand(CancelName, "cancel");
-    };
 
     /**
      * 合成屋画面で、購入できる商品の一覧を表示するウィンドウです。
      *
      * @class
      */
-    function Window_CreateShopBuy() {
-        this.initialize(...arguments);
-    }
+    class Window_CreateShopBuy extends Window_ShopBuy {
+        /**
+         * 必要素材ウィンドウの設定
+         *
+         * @param {} materialWindow -
+         */
+        setMaterialWindow(materialWindow) {
+            this._materialWindow = materialWindow;
+        }
 
-    Window_CreateShopBuy.prototype = Object.create(Window_ShopBuy.prototype);
-    Window_CreateShopBuy.prototype.constructor = Window_CreateShopBuy;
+        /**
+         * ヘルプテキスト更新
+         */
+        updateHelp() {
+            super.updateHelp();
+            this._materialWindow.setIndex(this.index());
+        }
 
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_CreateShopBuy.prototype.initialize = function(rect) {
-        Window_ShopBuy.prototype.initialize.apply(this, arguments);
-    };
+        /**
+         * 選択項目の有効状態を取得
+         *
+         * @returns {}
+         */
+        isCurrentItemEnabled() {
+            return this.isEnabled(this._data[this.index()], this.index());
+        }
 
-    /**
-     * 必要素材ウィンドウの設定
-     *
-     * @param {} materialWindow -
-     */
-    Window_CreateShopBuy.prototype.setMaterialWindow = function(materialWindow) {
-        this._materialWindow = materialWindow;
-    };
-
-    /**
-     * ヘルプテキスト更新
-     */
-    Window_CreateShopBuy.prototype.updateHelp = function() {
-        Window_ShopBuy.prototype.updateHelp.apply(this, arguments);
-        this._materialWindow.setIndex(this.index());
-    };
-
-    /**
-     * 選択項目の有効状態を取得
-     *
-     * @returns {}
-     */
-    Window_CreateShopBuy.prototype.isCurrentItemEnabled = function() {
-        return this.isEnabled(this._data[this.index()], this.index());
-    };
-
-    /**
-     * アイテムを許可状態で表示するかどうか
-     *
-     * @param {} item -
-     * @param {} index -
-     * @returns {}
-     */
-    Window_CreateShopBuy.prototype.isEnabled = function(item, index) {
-        let enable = Window_ShopBuy.prototype.isEnabled.apply(this, arguments);
-        if (enable) {
-            if (materials[index]) {
-                for (let i = 0; i < materials[index].length; i++) {
-                    if (materials[index][i]) {
-                        let item       = materials[index][i].item;
-                        let count      = materials[index][i].count;
-                        let possession = $gameParty.numItems(item); // 所持数
-                        if (possession < count) {
-                            enable = false;
-                            break;
+        /**
+         * アイテムを許可状態で表示するかどうか
+         *
+         * @param {} item -
+         * @param {} index -
+         * @returns {}
+         */
+        isEnabled(item, index) {
+            let enable = super.isEnabled(item, index);
+            if (enable) {
+                if (materials[index]) {
+                    for (let i = 0; i < materials[index].length; i++) {
+                        if (materials[index][i]) {
+                            let item       = materials[index][i].item;
+                            let count      = materials[index][i].count;
+                            let possession = $gameParty.numItems(item); // 所持数
+                            if (possession < count) {
+                                enable = false;
+                                break;
+                            }
                         }
                     }
                 }
             }
+            return enable;
         }
-        return enable;
-    };
 
-    /**
-     * 項目の描画
-     *
-     * @param {} index -
-     */
-    Window_CreateShopBuy.prototype.drawItem = function(index) {
-        const item = this.itemAt(index);
-        const price = this.price(item);
-        const rect = this.itemLineRect(index);
-        const priceWidth = this.priceWidth();
-        const priceX = rect.x + rect.width - priceWidth;
-        const nameWidth = rect.width - priceWidth;
-        this.changePaintOpacity(this.isEnabled(item, index));
-        this.drawItemName(item, rect.x, rect.y, nameWidth);
-        this.drawText(price, priceX, rect.y, priceWidth, "right");
-        this.changePaintOpacity(true);
-    };
+        /**
+         * 項目の描画
+         *
+         * @param {} index -
+         */
+        drawItem(index) {
+            const item = this.itemAt(index);
+            const price = this.price(item);
+            const rect = this.itemLineRect(index);
+            const priceWidth = this.priceWidth();
+            const priceX = rect.x + rect.width - priceWidth;
+            const nameWidth = rect.width - priceWidth;
+            this.changePaintOpacity(this.isEnabled(item, index));
+            this.drawItemName(item, rect.x, rect.y, nameWidth);
+            this.drawText(price, priceX, rect.y, priceWidth, "right");
+            this.changePaintOpacity(true);
+        }
+    }
 
 
     /**
@@ -416,21 +390,9 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Window_CreateShopSell() {
-        this.initialize(...arguments);
+    class Window_CreateShopSell extends Window_ShopSell {
+
     }
-
-    Window_CreateShopSell.prototype = Object.create(Window_ShopSell.prototype);
-    Window_CreateShopSell.prototype.constructor = Window_CreateShopSell;
-
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_CreateShopSell.prototype.initialize = function(rect) {
-        Window_ShopSell.prototype.initialize.apply(this, arguments);
-    };
 
 
     /**
@@ -438,67 +400,53 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Window_CreateShopNumber() {
-        this.initialize(...arguments);
-    }
-
-    Window_CreateShopNumber.prototype = Object.create(Window_ShopNumber.prototype);
-    Window_CreateShopNumber.prototype.constructor = Window_CreateShopNumber;
-
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_CreateShopNumber.prototype.initialize = function(rect) {
-        Window_ShopNumber.prototype.initialize.apply(this, arguments);
-    };
-
-    /**
-     * アイテム名表示行の Y 座標
-     *
-     * @returns {number} アイテム名表示行の Y 座標
-     */
-    Window_CreateShopNumber.prototype.itemNameY = function() {
-        return 34;
-    };
-
-    /**
-     * タッチ操作用ボタンの Y 座標
-     *
-     * @returns {number} タッチ操作用ボタンの Y 座標
-     */
-    Window_CreateShopNumber.prototype.buttonY = function() {
-        return Math.floor(this.totalPriceY() + this.lineHeight() * 1.5);
-    };
-
-    /**
-     * 個数の変更
-     *
-     * @param {} amount -
-     */
-    Window_CreateShopNumber.prototype.changeNumber = function(amount) {
-        Window_ShopNumber.prototype.changeNumber.apply(this, arguments);
-        this.updateMaterialWindowNumber();
-    };
-
-    /**
-     * 必要素材ウィンドウの設定
-     *
-     * @param {} materialWindow -
-     */
-    Window_CreateShopNumber.prototype.setMaterialWindow = function(materialWindow) {
-        this._materialWindow = materialWindow;
-    };
-
-    /**
-     * 必要素材個数の更新
-     */
-    Window_CreateShopNumber.prototype.updateMaterialWindowNumber = function() {
-        if (this._materialWindow) {
-            this._materialWindow.setNumber(this._number);
+    class Window_CreateShopNumber extends Window_ShopNumber {
+        /**
+         * アイテム名表示行の Y 座標
+         *
+         * @returns {number} アイテム名表示行の Y 座標
+         */
+        itemNameY() {
+            return 34;
         }
-    };
+
+        /**
+         * タッチ操作用ボタンの Y 座標
+         *
+         * @returns {number} タッチ操作用ボタンの Y 座標
+         */
+        buttonY() {
+            return Math.floor(this.totalPriceY() + this.lineHeight() * 1.5);
+        }
+
+        /**
+         * 個数の変更
+         *
+         * @param {} amount -
+         */
+        changeNumber(amount) {
+            super.changeNumber(amount);
+            this.updateMaterialWindowNumber();
+        }
+
+        /**
+         * 必要素材ウィンドウの設定
+         *
+         * @param {} materialWindow -
+         */
+        setMaterialWindow(materialWindow) {
+            this._materialWindow = materialWindow;
+        }
+
+        /**
+         * 必要素材個数の更新
+         */
+        updateMaterialWindowNumber() {
+            if (this._materialWindow) {
+                this._materialWindow.setNumber(this._number);
+            }
+        }
+    }
 
 
     /**
@@ -506,21 +454,9 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Window_CreateShopStatus() {
-        this.initialize(...arguments);
+    class Window_CreateShopStatus extends Window_ShopStatus {
+
     }
-
-    Window_CreateShopStatus.prototype = Object.create(Window_ShopStatus.prototype);
-    Window_CreateShopStatus.prototype.constructor = Window_CreateShopStatus;
-
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_CreateShopStatus.prototype.initialize = function(rect) {
-        Window_ShopStatus.prototype.initialize.apply(this, arguments);
-    };
 
 
     /**
@@ -528,159 +464,154 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Window_Material() {
-        this.initialize(...arguments);
-    }
-
-    Window_Material.prototype = Object.create(Window_Selectable.prototype);
-    Window_Material.prototype.constructor = Window_Material;
-
-    /**
-     * オブジェクト初期化
-     *
-     * @param {} rect -
-     */
-    Window_Material.prototype.initialize = function(rect) {
-        Window_Selectable.prototype.initialize.apply(this, arguments);
-        this._item = null;
-        this._index = 0;
-        this._number = 1;
-        this._pageIndex = 0;
-        this.refresh();
-    };
-
-    /**
-     * インデックスの設定
-     *
-     * @param {numner} index - インデックス
-     */
-    Window_Material.prototype.setIndex= function(index) {
-        this._index = index;
-        this.refresh();
-    };
-
-    /**
-     * 個数の設定
-     *
-     * @param {number} number - 個数
-     */
-    Window_Material.prototype.setNumber = function(number) {
-        this._number = number;
-        this.refresh();
-    };
-
-    /**
-     * リフレッシュ
-     */
-    Window_Material.prototype.refresh = function() {
-        Window_Selectable.prototype.refresh.apply(this, arguments);
-        this.drawMaterial();
-    };
-
-    /**
-     * 必要素材の描画
-     */
-    Window_Material.prototype.drawMaterial = function() {
-        let pos = 0;
-        this.changeTextColor(ColorManager.systemColor());
-        if (MaterialName) {
-            pos = 1;
-            let max_page = this.maxPages();
-            if (max_page > 1) {
-                this.drawText(MaterialName + '(' + (this._pageIndex + 1) + '/' + max_page + ')', 0, 0, 420);
-            } else {
-                this.drawText(MaterialName, 0, 0, 420);
-            }
+    class Window_Material extends Window_Selectable {
+        /**
+         * オブジェクト初期化
+         *
+         * @param {} rect -
+         */
+        constructor(rect) {
+            super(rect);
+            this._item = null;
+            this._index = 0;
+            this._number = 1;
+            this._pageIndex = 0;
+            this.refresh();
         }
-        this.resetTextColor();
-        if (materials[this._index]) {
-            let start = this._pageIndex * MaxSize;
-            let end   = start + MaxSize;
-            for (let i = start; i < end; i++) {
-                if (materials[this._index][i]) {
-                    let position   = (i % MaxSize + pos);
-                    let item       = materials[this._index][i].item;
-                    let count      = materials[this._index][i].count;
-                    let need       = count * this._number; // 必要数
-                    let possession = $gameParty.numItems(item); // 所持数
-                    this.changePaintOpacity(possession >= need);
-                    this.drawItemName(item, 0, 34 * position, 390 - this.textWidth("0000000"));
-                    this.drawText(need + " / " + possession, 420 - this.textWidth("0000000"), 34 * position, 84, "right");
+
+        /**
+         * インデックスの設定
+         *
+         * @param {numner} index - インデックス
+         */
+        setIndex(index) {
+            this._index = index;
+            this.refresh();
+        }
+
+        /**
+         * 個数の設定
+         *
+         * @param {number} number - 個数
+         */
+        setNumber(number) {
+            this._number = number;
+            this.refresh();
+        }
+
+        /**
+         * リフレッシュ
+         */
+        refresh() {
+            super.refresh();
+            this.drawMaterial();
+        }
+
+        /**
+         * 必要素材の描画
+         */
+        drawMaterial() {
+            let pos = 0;
+            this.changeTextColor(ColorManager.systemColor());
+            if (MaterialName) {
+                pos = 1;
+                let max_page = this.maxPages();
+                if (max_page > 1) {
+                    this.drawText(MaterialName + '(' + (this._pageIndex + 1) + '/' + max_page + ')', 0, 0, 420);
+                } else {
+                    this.drawText(MaterialName, 0, 0, 420);
+                }
+            }
+            this.resetTextColor();
+            if (materials[this._index]) {
+                let start = this._pageIndex * MaxSize;
+                let end   = start + MaxSize;
+                for (let i = start; i < end; i++) {
+                    if (materials[this._index][i]) {
+                        let position   = (i % MaxSize + pos);
+                        let item       = materials[this._index][i].item;
+                        let count      = materials[this._index][i].count;
+                        let need       = count * this._number; // 必要数
+                        let possession = $gameParty.numItems(item); // 所持数
+                        this.changePaintOpacity(possession >= need);
+                        this.drawItemName(item, 0, 34 * position, 390 - this.textWidth("0000000"));
+                        this.drawText(need + " / " + possession, 420 - this.textWidth("0000000"), 34 * position, 84, "right");
+                    }
                 }
             }
         }
-    };
 
-    /**
-     * 個数の設定
-     *
-     * @returns {}
-     */
-    Window_Material.prototype.number = function() {
-        return this._number;
-    };
-
-    /**
-     * フレーム更新
-     */
-    Window_Material.prototype.update = function() {
-        Window_Selectable.prototype.update.apply(this, arguments);
-        this.updatePage();
-    };
-
-    /**
-     * ページの更新
-     */
-    Window_Material.prototype.updatePage = function() {
-        if (this.isPageChangeEnabled() && this.isPageChangeRequested()) {
-            this.changePage();
+        /**
+         * 個数の設定
+         *
+         * @returns {}
+         */
+        number() {
+            return this._number;
         }
-    };
 
-    /**
-     * 最大ページ数の取得
-     */
-    Window_Material.prototype.maxPages = function() {
-        let material = materials[this._index];
-        if (material) {
-            return Math.floor(material.length / MaxSize + 1);
-        } else {
-            return 1;
+        /**
+         * フレーム更新
+         */
+        update() {
+            super.update();
+            this.updatePage();
         }
-    };
 
-    /**
-     * ページ更新判定
-     *
-     * @returns {boolean} ページ更新可否
-     */
-    Window_Material.prototype.isPageChangeEnabled = function() {
-        return this.visible && this.maxPages() >= 2;
-    };
-
-    /**
-     * ページ更新操作(Shiftキーもしくはタッチされた場合)
-     *
-     * @returns {boolean} ページ更新可否
-     */
-    Window_Material.prototype.isPageChangeRequested = function() {
-        if (Input.isTriggered("shift")) {
-            return true;
+        /**
+         * ページの更新
+         */
+        updatePage() {
+            if (this.isPageChangeEnabled() && this.isPageChangeRequested()) {
+                this.changePage();
+            }
         }
-        if (TouchInput.isTriggered() && this.isTouchedInsideFrame()) {
-            return true;
-        }
-        return false;
-    };
 
-    /**
-     * ページ変更
-     */
-    Window_Material.prototype.changePage = function() {
-        this._pageIndex = (this._pageIndex + 1) % this.maxPages();
-        this.refresh();
-        this.playCursorSound();
-    };
+        /**
+         * 最大ページ数の取得
+         */
+        maxPages() {
+            let material = materials[this._index];
+            if (material) {
+                return Math.floor(material.length / MaxSize + 1);
+            } else {
+                return 1;
+            }
+        }
+
+        /**
+         * ページ更新判定
+         *
+         * @returns {boolean} ページ更新可否
+         */
+        isPageChangeEnabled() {
+            return this.visible && this.maxPages() >= 2;
+        }
+
+        /**
+         * ページ更新操作(Shiftキーもしくはタッチされた場合)
+         *
+         * @returns {boolean} ページ更新可否
+         */
+        isPageChangeRequested() {
+            if (Input.isTriggered("shift")) {
+                return true;
+            }
+            if (TouchInput.isTriggered() && this.isTouchedInsideFrame()) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * ページ変更
+         */
+        changePage() {
+            this._pageIndex = (this._pageIndex + 1) % this.maxPages();
+            this.refresh();
+            this.playCursorSound();
+        }
+    }
 
 
     /**
@@ -688,224 +619,212 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-    function Scene_CreateShop() {
-        this.initialize(...arguments);
-    }
+    class Scene_CreateShop extends Scene_Shop {
+        /**
+         * オブジェクト作成
+         */
+        create() {
+            Scene_MenuBase.prototype.create.apply(this, arguments);
+            this.createHelpWindow();
+            this.createGoldWindow();
+            this.createCommandWindow();
+            this.createDummyWindow();
+            this.createMaterialWindow(); // ここを追加
+            this.createNumberWindow();
+            this.createStatusWindow();
+            this.createBuyWindow();
+            this.createCategoryWindow();
+            this.createSellWindow();
+        }
 
-    Scene_CreateShop.prototype = Object.create(Scene_Shop.prototype);
-    Scene_CreateShop.prototype.constructor = Scene_CreateShop;
+        /**
+         * 必要素材ウィンドウの作成
+         */
+        createMaterialWindow() {
+            const rect = this.materialWindowRect();
+            this._materialWindow = new Window_Material(rect);
+            this._materialWindow.hide();
+            this.addWindow(this._materialWindow);
+        }
 
-    /**
-     * オブジェクト初期化
-     */
-    Scene_CreateShop.prototype.initialize = function() {
-        Scene_Shop.prototype.initialize.apply(this, arguments);
-    };
+        /**
+         * 必要素材ウィンドウのサイズ指定
+         *
+         * @returns {}
+         */
+        materialWindowRect() {
+            const wx = 0;
+            const wy = 120 + 200 + 42;
+            const ww = Graphics.boxWidth - this.statusWidth();
+            const wh =
+                this.mainAreaHeight() -
+                this._commandWindow.height -
+                200 - 42;
+            return new Rectangle(wx, wy, ww, wh);
+        }
 
-    /**
-     * オブジェクト作成
-     */
-    Scene_CreateShop.prototype.create = function() {
-        Scene_MenuBase.prototype.create.apply(this, arguments);
-        this.createHelpWindow();
-        this.createGoldWindow();
-        this.createCommandWindow();
-        this.createDummyWindow();
-        this.createMaterialWindow(); // ここを追加
-        this.createNumberWindow();
-        this.createStatusWindow();
-        this.createBuyWindow();
-        this.createCategoryWindow();
-        this.createSellWindow();
-    };
+        /**
+         * コマンドウィンドウの作成
+         */
+        createCommandWindow() {
+            const rect = this.commandWindowRect();
+            this._commandWindow = new Window_CreateShopCommand(rect); // ここを変えた
+            this._commandWindow.setPurchaseOnly(this._purchaseOnly);
+            this._commandWindow.y = this.mainAreaTop();
+            this._commandWindow.setHandler("buy", this.commandBuy.bind(this));
+            // this._commandWindow.setHandler("sell", this.commandSell.bind(this)); // ここを変えた
+            this._commandWindow.setHandler("cancel", this.popScene.bind(this));
+            this.addWindow(this._commandWindow);
+        }
 
-    /**
-     * 必要素材ウィンドウの作成
-     */
-    Scene_CreateShop.prototype.createMaterialWindow = function() {
-        const rect = this.materialWindowRect();
-        this._materialWindow = new Window_Material(rect);
-        this._materialWindow.hide();
-        this.addWindow(this._materialWindow);
-    };
+        /**
+         * 個数入力ウィンドウの作成
+         */
+        createNumberWindow() {
+            const rect = this.numberWindowRect();
+            this._numberWindow = new Window_CreateShopNumber(rect); // ここを変えた
+            this._numberWindow.hide();
+            this._numberWindow.setHandler("ok", this.onNumberOk.bind(this));
+            this._numberWindow.setHandler("cancel", this.onNumberCancel.bind(this));
+            this._numberWindow.setMaterialWindow(this._materialWindow); // ここを追加
+            this.addWindow(this._numberWindow);
+        }
 
-    /**
-     * 必要素材ウィンドウのサイズ指定
-     *
-     * @returns {}
-     */
-    Scene_CreateShop.prototype.materialWindowRect = function() {
-        const wx = 0;
-        const wy = 120 + 200 + 42;
-        const ww = Graphics.boxWidth - this.statusWidth();
-        const wh =
-            this.mainAreaHeight() -
-            this._commandWindow.height -
-            200 - 42;
-        return new Rectangle(wx, wy, ww, wh);
-    };
+        /**
+         * 個数入力ウィンドウのサイズ指定
+         *
+         * @returns {}
+         */
+        numberWindowRect() {
+            const wx = 0;
+            const wy = this._dummyWindow.y;
+            const ww = Graphics.boxWidth - this.statusWidth();
+            const wh = this.calcWindowHeight(5, true);
+            return new Rectangle(wx, wy, ww, wh);
+        }
 
-    /**
-     * コマンドウィンドウの作成
-     */
-    Scene_CreateShop.prototype.createCommandWindow = function() {
-        const rect = this.commandWindowRect();
-        this._commandWindow = new Window_CreateShopCommand(rect); // ここを変えた
-        this._commandWindow.setPurchaseOnly(this._purchaseOnly);
-        this._commandWindow.y = this.mainAreaTop();
-        this._commandWindow.setHandler("buy", this.commandBuy.bind(this));
-        // this._commandWindow.setHandler("sell", this.commandSell.bind(this)); // ここを変えた
-        this._commandWindow.setHandler("cancel", this.popScene.bind(this));
-        this.addWindow(this._commandWindow);
-    };
+        /**
+         * 購入ウィンドウの作成
+         */
+        createBuyWindow() {
+            const rect = this.buyWindowRect();
+            this._buyWindow = new Window_CreateShopBuy(rect); // ここを変えた
+            this._buyWindow.setupGoods(this._goods);
+            this._buyWindow.setHelpWindow(this._helpWindow);
+            this._buyWindow.setStatusWindow(this._statusWindow);
+            this._buyWindow.hide();
+            this._buyWindow.setHandler("ok", this.onBuyOk.bind(this));
+            this._buyWindow.setHandler("cancel", this.onBuyCancel.bind(this));
+            this._buyWindow.setMaterialWindow(this._materialWindow); // ここを追加
+            this.addWindow(this._buyWindow);
+        }
 
-    /**
-     * 個数入力ウィンドウの作成
-     */
-    Scene_CreateShop.prototype.createNumberWindow = function() {
-        const rect = this.numberWindowRect();
-        this._numberWindow = new Window_CreateShopNumber(rect); // ここを変えた
-        this._numberWindow.hide();
-        this._numberWindow.setHandler("ok", this.onNumberOk.bind(this));
-        this._numberWindow.setHandler("cancel", this.onNumberCancel.bind(this));
-        this._numberWindow.setMaterialWindow(this._materialWindow); // ここを追加
-        this.addWindow(this._numberWindow);
-    };
+        /**
+         * 購入ウィンドウのサイズ指定
+         *
+         * @returns {}
+         */
+        buyWindowRect() {
+            const wx = 0;
+            const wy = this._dummyWindow.y;
+            const ww = Graphics.boxWidth - this.statusWidth();
+            const wh = this.calcWindowHeight(5, true);
+            return new Rectangle(wx, wy, ww, wh);
+        }
 
-    /**
-     * 個数入力ウィンドウのサイズ指定
-     *
-     * @returns {}
-     */
-    Scene_CreateShop.prototype.numberWindowRect = function() {
-        const wx = 0;
-        const wy = this._dummyWindow.y;
-        const ww = Graphics.boxWidth - this.statusWidth();
-        const wh = this.calcWindowHeight(5, true);
-        return new Rectangle(wx, wy, ww, wh);
-    };
+        /**
+         * 購入ウィンドウのアクティブ化
+         */
+        activateBuyWindow() {
+            super.activateBuyWindow();
+            this._materialWindow.show();
+        }
 
-    /**
-     * 購入ウィンドウの作成
-     */
-    Scene_CreateShop.prototype.createBuyWindow = function() {
-        const rect = this.buyWindowRect();
-        this._buyWindow = new Window_CreateShopBuy(rect); // ここを変えた
-        this._buyWindow.setupGoods(this._goods);
-        this._buyWindow.setHelpWindow(this._helpWindow);
-        this._buyWindow.setStatusWindow(this._statusWindow);
-        this._buyWindow.hide();
-        this._buyWindow.setHandler("ok", this.onBuyOk.bind(this));
-        this._buyWindow.setHandler("cancel", this.onBuyCancel.bind(this));
-        this._buyWindow.setMaterialWindow(this._materialWindow); // ここを追加
-        this.addWindow(this._buyWindow);
-    };
+        /**
+         * 売却ウィンドウのアクティブ化
+         */
+        activateSellWindow() {
+            super.activateSellWindow();
+            this._materialWindow.hide();
+        }
 
-    /**
-     * 購入ウィンドウのサイズ指定
-     *
-     * @returns {}
-     */
-    Scene_CreateShop.prototype.buyWindowRect = function() {
-        const wx = 0;
-        const wy = this._dummyWindow.y;
-        const ww = Graphics.boxWidth - this.statusWidth();
-        const wh = this.calcWindowHeight(5, true);
-        return new Rectangle(wx, wy, ww, wh);
-    };
+        /**
+         * 購入［決定］
+         */
+        onBuyOk() {
+            super.onBuyOk();
+            this._materialWindow.setIndex(this._buyWindow.index());
+        }
 
-    /**
-     * 購入ウィンドウのアクティブ化
-     */
-    Scene_CreateShop.prototype.activateBuyWindow = function() {
-        Scene_Shop.prototype.activateBuyWindow.apply(this, arguments);
-        this._materialWindow.show();
-    };
+        /**
+         * 購入［キャンセル］
+         */
+        onBuyCancel() {
+            super.onBuyCancel();
+            this._materialWindow.setIndex(0);
+            this._materialWindow.hide();
+        }
 
-    /**
-     * 売却ウィンドウのアクティブ化
-     */
-    Scene_CreateShop.prototype.activateSellWindow = function() {
-        Scene_Shop.prototype.activateSellWindow.apply(this, arguments);
-        this._materialWindow.hide();
-    };
+        /**
+         * 個数入力［決定］
+         */
+        onNumberOk() {
+            super.onNumberOk();
+            this._materialWindow.setNumber(1);
+        }
 
-    /**
-     * 購入［決定］
-     */
-    Scene_CreateShop.prototype.onBuyOk = function() {
-        Scene_Shop.prototype.onBuyOk.apply(this, arguments);
-        this._materialWindow.setIndex(this._buyWindow.index());
-    };
+        /**
+         * 個数入力［キャンセル］
+         */
+        onNumberCancel() {
+            super.onNumberCancel();
+            this._materialWindow.setNumber(1);
+        }
 
-    /**
-     * 購入［キャンセル］
-     */
-    Scene_CreateShop.prototype.onBuyCancel = function() {
-        Scene_Shop.prototype.onBuyCancel.apply(this, arguments);
-        this._materialWindow.setIndex(0);
-        this._materialWindow.hide();
-    };
+        /**
+         * 最大購入可能個数の取得
+         *
+         * @returns {}
+         */
+        maxBuy() {
+            let max = super.maxBuy();
+            let index = this._buyWindow.index();
+            if (materials[index]) {
+                for (let i = 0; i < materials[index].length; i++) {
+                    if (materials[index][i]) {
+                        let item  = materials[index][i].item;
+                        let count = materials[index][i].count;
+                        let m = $gameParty.numItems(item) / count; // 所持数
+                        if (max > m) {
+                            max = m;
+                        }
+                    }
+                }
+            }
 
-    /**
-     * 個数入力［決定］
-     */
-    Scene_CreateShop.prototype.onNumberOk = function() {
-        Scene_Shop.prototype.onNumberOk.apply(this, arguments);
-        this._materialWindow.setNumber(1);
-    };
+            return max;
+        }
 
-    /**
-     * 個数入力［キャンセル］
-     */
-    Scene_CreateShop.prototype.onNumberCancel = function() {
-        Scene_Shop.prototype.onNumberCancel.apply(this, arguments);
-        this._materialWindow.setNumber(1);
-    };
-
-    /**
-     * 最大購入可能個数の取得
-     *
-     * @returns {}
-     */
-    Scene_CreateShop.prototype.maxBuy = function() {
-        let max = Scene_Shop.prototype.maxBuy.apply(this, arguments);
-        let index = this._buyWindow.index();
-        if (materials[index]) {
-            for (let i = 0; i < materials[index].length; i++) {
-                if (materials[index][i]) {
-                    let item  = materials[index][i].item;
-                    let count = materials[index][i].count;
-                    let m = $gameParty.numItems(item) / count; // 所持数
-                    if (max > m) {
-                        max = m;
+        /**
+         * 購入の実行
+         *
+         * @param {} number -
+         */
+        doBuy(number) {
+            $gameParty.loseGold(number * this.buyingPrice());
+            $gameParty.gainItem(this._item, number);
+            let index = this._buyWindow.index();
+            if (materials[index]) {
+                for (let i = 0; i < materials[index].length; i++) {
+                    if (materials[index][i]) {
+                        let item  = materials[index][i].item;
+                        let count = materials[index][i].count;
+                        $gameParty.loseItem(item, number * count);
                     }
                 }
             }
         }
-
-        return max;
-    };
-
-    /**
-     * 購入の実行
-     *
-     * @param {} number -
-     */
-    Scene_CreateShop.prototype.doBuy = function(number) {
-        $gameParty.loseGold(number * this.buyingPrice());
-        $gameParty.gainItem(this._item, number);
-        let index = this._buyWindow.index();
-        if (materials[index]) {
-            for (let i = 0; i < materials[index].length; i++) {
-                if (materials[index][i]) {
-                    let item  = materials[index][i].item;
-                    let count = materials[index][i].count;
-                    $gameParty.loseItem(item, number * count);
-                }
-            }
-        }
-    };
+    }
 
     // ミニウィンドウ表示対応
     if (MiniWindow) {

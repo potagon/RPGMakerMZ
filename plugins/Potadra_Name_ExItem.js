@@ -1,14 +1,13 @@
 /*:
 @plugindesc
-アイテム名参照制御文字 Ver1.1.2(2021/5/17)
+アイテム名参照制御文字 Ver1.1.3(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_ExItem.js
-@base Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- ベースプラグイン(Potadra_Base.js)が必要なかったのでアノテーションを削除
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

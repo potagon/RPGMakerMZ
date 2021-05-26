@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-名前データベース Ver0.8.2(2021/5/17)
+名前データベース Ver0.9.0(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Database.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- アクター初期装備を戦闘テストでは無効にするように修正
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -67,7 +69,7 @@ https://opensource.org/licenses/mit-license.php
     const Learning           = Potadra.convertBool(params.Learning);
 
     // アクターの初期装備
-    if (ActorEquip) {
+    if (ActorEquip && !Utils.isOptionValid("btest")) {
         /**
          *
          *

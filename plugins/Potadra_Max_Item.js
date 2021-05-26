@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-アイテムの最大所持数変更 Ver1.2.2(2021/5/17)
+アイテムの最大所持数変更 Ver1.3.0(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Item.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- 所持数を超えた場合、自動売却する機能を追加
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -39,6 +41,23 @@ https://opensource.org/licenses/mit-license.php
 @desc アイテムの列
 @default 2
 @min 1
+
+@param AutoSell
+@type boolean
+@text 自動売却
+@desc 最大値を超えたときに、アイテムを自動売却するか
+@on 自動売却する
+@off 自動売却しない
+@default false
+
+@param SellRate
+@parent AutoSell
+@type number
+@text 自動売却レート
+@desc 自動売却倍率
+@min 0
+@decimals 2
+@default 0.50
 */
 (() => {
     'use strict';
@@ -48,8 +67,13 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const MaxItem = Number(params.MaxItem || 9999);
-    const MaxCol  = Number(params.MaxCol  || 2);
+    const MaxItem  = Number(params.MaxItem || 9999);
+    const MaxCol   = Number(params.MaxCol  || 2);
+    const AutoSell = Potadra.convertBool(params.AutoSell);
+    const SellRate = Number(params.SellRate || 0.5);
+
+    // 他プラグイン連携(プラグインの導入有無)
+    const Potadra_Name_Item = Potadra.isPlugin('Potadra_Name_Item');
 
     /**
      *
@@ -72,6 +96,9 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
+    function sellingPrice(item) {
+        return Math.floor(item.price * SellRate);
+    }
 
     /**
      * アイテムの最大所持数取得
@@ -82,6 +109,49 @@ https://opensource.org/licenses/mit-license.php
         return maxItem(item);
     };
 
+    /**
+     * アイテムの増加（減少）
+     *     include_equip : 装備品も含める
+     *
+     * @param {} item - 
+     * @param {} amount - 
+     * @param {} includeEquip - 
+     */
+    Game_Party.prototype.gainItem = function(item, amount, includeEquip) {
+        const container = this.itemContainer(item);
+        if (container) {
+            const lastNumber = this.numItems(item); // 現在のアイテム所持数
+            const newNumber  = lastNumber + amount; // 増減後のアイテム所持数
+            const maxNumber  = this.maxItems(item); // アイテムの最大数
+
+            // 自動売却
+            if (AutoSell) {
+                 // アイテムの最大数
+                if (newNumber > maxNumber) { // 増減後のアイテム所持数がアイテムの最大数を超えたら
+                    const sellNumber = newNumber - maxNumber; // 売却個数
+                    $gameParty.gainGold(sellNumber * sellingPrice(item));
+                }
+            }
+
+            // アイテム名前保存
+            if (Potadra_Name_Item) {
+                container[item.name] = newNumber.clamp(0, this.maxItems(item));
+                if (container[item.name] === 0) {
+                    delete container[item.name];
+                }
+            } else {
+                container[item.id] = newNumber.clamp(0, maxNumber);
+                if (container[item.id] === 0) {
+                    delete container[item.id];
+                }
+            }
+
+            if (includeEquip && newNumber < 0) {
+                this.discardMembersEquip(item, -newNumber);
+            }
+            $gameMap.requestRefresh();
+        }
+    };
 
     /**
      * アイテム画面で、所持アイテムの一覧を表示するウィンドウです。

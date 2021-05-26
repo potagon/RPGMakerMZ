@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-アイテム名前保存 Ver0.5.0(2021/5/17)
+アイテム名前保存 Ver0.6.0(2021/5/25)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Item.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 開発版を公開
+- アイテムの最大所持数変更の自動売却機能に対応
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -23,6 +25,9 @@ https://opensource.org/licenses/mit-license.php
 */
 (() => {
     'use strict';
+
+    // 他プラグイン連携(プラグインの導入有無)
+    const Potadra_Max_Item = Potadra.isPlugin('Potadra_Max_Item');
 
     /**
      * アイテムの所持数取得
@@ -62,27 +67,30 @@ https://opensource.org/licenses/mit-license.php
         return Object.keys(this._armors).map(name => Potadra.nameSearch($dataArmors, name, false));
     };
 
-    /**
-     * アイテムの増加（減少）
-     *     include_equip : 装備品も含める
-     *
-     * @param {} item - 
-     * @param {} amount - 
-     * @param {} includeEquip - 
-     */
-    Game_Party.prototype.gainItem = function(item, amount, includeEquip) {
-        const container = this.itemContainer(item);
-        if (container) {
-            const lastNumber = this.numItems(item);
-            const newNumber = lastNumber + amount;
-            container[item.name] = newNumber.clamp(0, this.maxItems(item));
-            if (container[item.name] === 0) {
-                delete container[item.name];
-            }
-            if (includeEquip && newNumber < 0) {
-                this.discardMembersEquip(item, -newNumber);
-            }
-            $gameMap.requestRefresh();
-        }
-    };
+    // アイテムの最大所持数変更が有効なときは自動売却があるので、こちらの設定は無効
+    if (!Potadra_Max_Item) {
+        /**
+         * アイテムの増加（減少）
+         *     include_equip : 装備品も含める
+         *
+         * @param {} item - 
+         * @param {} amount - 
+         * @param {} includeEquip - 
+         */
+        Game_Party.prototype.gainItem = function(item, amount, includeEquip) {
+            const container = this.itemContainer(item);
+            if (container) {
+                const lastNumber = this.numItems(item);
+                const newNumber = lastNumber + amount;
+                container[item.name] = newNumber.clamp(0, this.maxItems(item));
+                if (container[item.name] === 0) {
+                    delete container[item.name];
+                }
+                if (includeEquip && newNumber < 0) {
+                    this.discardMembersEquip(item, -newNumber);
+                }
+                $gameMap.requestRefresh();
+             }
+        };
+    }
 })();

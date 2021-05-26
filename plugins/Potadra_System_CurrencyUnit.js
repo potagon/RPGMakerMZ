@@ -1,14 +1,15 @@
 /*:
 @plugindesc
-通貨単位切り替え Ver1.2.3(2021/5/17)
+通貨単位切り替え Ver1.2.4(2021/5/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_CurrencyUnit.js
 @base Potadra_Base
+@orderAfter Potadra_Base
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ヘルプ修正
+- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
