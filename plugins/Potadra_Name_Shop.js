@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-名前ショップ Ver1.2.3(2021/5/27)
+名前ショップ Ver1.2.4(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_Shop.js
 @base Potadra_Base
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- コメント修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -58,7 +58,7 @@ https://opensource.org/licenses/mit-license.php
     // パラメータ用変数
     const plugin_name = Potadra.getPluginName();
 
-    // プラグインコマンド(プラグインコマンド名)
+    // プラグインコマンド(名前ショップ)
     PluginManager.registerCommand(plugin_name, "name_shop_item", args => {
         let goods = [];
         const buy_only = Potadra.convertBool(args.buyOnly);

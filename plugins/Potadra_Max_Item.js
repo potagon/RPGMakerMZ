@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテムの最大所持数変更 Ver1.3.0(2021/5/27)
+アイテムの最大所持数変更 Ver1.4.0(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Item.js
 @base Potadra_Base
@@ -9,8 +9,9 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- 所持数を超えた場合、自動売却する機能を追加
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- 個数表示の最大桁数を調整するタグを追加
+- タグの名称を変更するパラメータを追加
+- 説明修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -21,12 +22,15 @@ https://opensource.org/licenses/mit-license.php
 アイテムの最大所持数を変更します。
 
 ## 使い方
-最大所持数の桁が増えると、アイテムの最大文字数が少なくなるので、
-パラメータ "アイテム列" で列を1列にするか、最大所持数を減らしてください。
-4桁(9999)のときは、アイテムの最大文字数は全角で10文字です。
+パラメータを変更し、最大所持数を変更してください。  
+プラグイン導入時は、9999が最大所持数です。
 
-アイテムのメモ欄に <最大所持数:9999> のように
+アイテムのメモ欄に <最大所持数:9999> のように  
 指定すると個別に最大所持数を設定できます。
+
+また、<最大桁数:00000>のように設定すると  
+アイテム一覧時の桁数の表示範囲を調整できます。  
+この桁数には ':' も含まれるので、注意してください。 
 
 @param MaxItem
 @type number
@@ -34,6 +38,12 @@ https://opensource.org/licenses/mit-license.php
 @desc アイテムの最大所持数
 @default 9999
 @min 0
+
+@param MaxDigits
+@type string
+@text 個数表示の最大桁数
+@desc 個数表示の最大桁数
+@default 00000
 
 @param MaxCol
 @type number
@@ -58,6 +68,18 @@ https://opensource.org/licenses/mit-license.php
 @min 0
 @decimals 2
 @default 0.50
+
+@param MaxItemMetaName
+@text 最大所持数タグ
+@desc 最大所持数に使うメモ欄タグの名称
+デフォルトは 最大所持数
+@default 最大所持数
+
+@param MaxDigitsMetaName
+@text 最大桁数タグ
+@desc 最大桁数に使うメモ欄タグの名称
+デフォルトは 最大桁数
+@default 最大桁数
 */
 (() => {
     'use strict';
@@ -67,27 +89,45 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const MaxItem  = Number(params.MaxItem || 9999);
-    const MaxCol   = Number(params.MaxCol  || 2);
-    const AutoSell = Potadra.convertBool(params.AutoSell);
-    const SellRate = Number(params.SellRate || 0.5);
+    const MaxItem           = Number(params.MaxItem || 9999);
+    const MaxDigits         = String(params.MaxDigits) || '00';
+    const MaxCol            = Number(params.MaxCol  || 2);
+    const AutoSell          = Potadra.convertBool(params.AutoSell);
+    const SellRate          = Number(params.SellRate || 0.5);
+    const MaxItemMetaName   = String(params.MaxItemMetaName) || '最大所持数';
+    const MaxDigitsMetaName = String(params.MaxDigitsMetaName) || '最大桁数';
 
     // 他プラグイン連携(プラグインの導入有無)
     const Potadra_Name_Item = Potadra.isPlugin('Potadra_Name_Item');
 
     /**
+     * アイテムの最大所持数
      *
-     *
-     * @param {} item -
+     * @param {Object} item - アイテムのオブジェクト
      * @returns {number} アイテムの最大所持数
      */
     function maxItem(item) {
         if (!item) {
             return MaxItem;
         }
-        const max_item_str = item.meta['最大所持数'];
+        const max_item_str = item.meta[MaxItemMetaName];
         let max_item = max_item_str ? Number(max_item_str) : MaxItem;
         return max_item;
+    }
+
+    /**
+     * 個数表示の最大桁数を取得
+     *
+     * @param {Object} item - アイテムのオブジェクト
+     * @returns {string} 個数表示の最大桁数
+     */
+    function maxDigits(item) {
+        if (!item) {
+            return MaxDigits;
+        }
+        const max_digit_str = item.meta[MaxDigitsMetaName];
+        let max_digit = max_digit_str ? String(max_digit_str) : MaxDigits;
+        return max_digit;
     }
 
     /**
@@ -154,6 +194,23 @@ https://opensource.org/licenses/mit-license.php
     };
 
     /**
+     * 項目の描画
+     *
+     * @param {} index - 
+     */
+    Window_ItemList.prototype.drawItem = function(index) {
+        const item = this.itemAt(index);
+        if (item) {
+            const numberWidth = this.numberWidth();
+            const rect = this.itemLineRect(index);
+            this.changePaintOpacity(this.isEnabled(item));
+            this.drawItemName(item, rect.x, rect.y, rect.width - numberWidth);
+            this.drawItemNumber(item, rect.x, rect.y, rect.width);
+            this.changePaintOpacity(1);
+        }
+    };
+
+    /**
      * アイテム画面で、所持アイテムの一覧を表示するウィンドウです。
      *
      * @class
@@ -169,6 +226,32 @@ https://opensource.org/licenses/mit-license.php
     };
 
     /**
+     * 項目の描画
+     *
+     * @param {} index - 
+     */
+    Window_ItemList.prototype.drawItem = function(index) {
+        const item = this.itemAt(index);
+        if (item) {
+            const numberWidth = this.numberWidth(item);
+            const rect = this.itemLineRect(index);
+            this.changePaintOpacity(this.isEnabled(item));
+            this.drawItemName(item, rect.x, rect.y, rect.width - numberWidth);
+            this.drawItemNumber(item, rect.x, rect.y, rect.width, numberWidth);
+            this.changePaintOpacity(1);
+        }
+    };
+
+    /**
+     * 
+     *
+     * @returns {} 
+     */
+    Window_ItemList.prototype.numberWidth = function(item) {
+        return this.textWidth(maxDigits(item));
+    };
+
+    /**
      * アイテムの個数を描画
      *
      * @param {} item -
@@ -176,10 +259,10 @@ https://opensource.org/licenses/mit-license.php
      * @param {} y -
      * @param {} width -
      */
-    Window_ItemList.prototype.drawItemNumber = function(item, x, y, width) {
+    Window_ItemList.prototype.drawItemNumber = function(item, x, y, width, numberWidth) {
         if (this.needsNumber()) {
-            this.drawText(":", x, y, width - this.textWidth(maxItem(item)), "right");
-            this.drawText($gameParty.numItems(item), x, y, width, "right");
+            const maxItemX = x + width - numberWidth;
+            this.drawText(":" + $gameParty.numItems(item), maxItemX, y, numberWidth, "right");
         }
     };
 

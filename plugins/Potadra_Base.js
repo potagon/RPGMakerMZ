@@ -1,15 +1,14 @@
 /*:
 @plugindesc
-ベース Ver1.3.3(2021/5/17)
+ベース Ver1.4.0(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- libs 以下のファイルを読み取る機能追加
-- スイッチ判定追加
-- ヘルプ修正
+- SEをコンバートする機能追加
+- スイッチ判定で真偽値を指定できるように修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -87,6 +86,25 @@ class Potadra {
     }
 
     /**
+     * SE変換
+     *
+     * @param {struct} struct_se - SE情報
+     * @returns {Object} 再生できる状態のSE情報
+     */
+    static convertSe(struct_se) {
+        if (struct_se) {
+            let se     = JSON.parse(struct_se);
+            let name   = String(se.name);
+            let volume = Number(se.volume || 85);
+            let pitch  = Number(se.pitch || 100);
+            let pan    = Number(se.pan || 0);
+            return {"name": name, "volume": volume, "pitch": pitch, "pan": pan};
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 配列(数値)変換
      *
      * @param {string} data - 配列に変換する文字列
@@ -118,10 +136,11 @@ class Potadra {
      * スイッチ判定
      * 
      * @param {number} switch_no - スイッチ番号
+     * @param {boolean} bool - 真偽値
      * @returns {boolean} 
      */
-    static checkSwitch(switch_no) {
-        if (switch_no === 0 || $gameSwitches.value(switch_no) === true) {
+    static checkSwitch(switch_no, bool = true) {
+        if (switch_no === 0 || $gameSwitches.value(switch_no) === bool) {
             return true;
         } else {
             return false;

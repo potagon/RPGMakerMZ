@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-合成屋 Ver0.7.3(2021/5/27)
+合成屋 Ver0.8.0(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_CreateShop.js
 @base Potadra_Base
@@ -9,8 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- リファクタ(class記法に変更)
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- フォントを変更すると、必要素材の表示がおかしくなる問題修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -523,22 +522,29 @@ https://opensource.org/licenses/mit-license.php
                 }
             }
             this.resetTextColor();
-            if (materials[this._index]) {
+            let index = this._index;
+            if (materials[index]) {
                 let start = this._pageIndex * MaxSize;
                 let end   = start + MaxSize;
                 for (let i = start; i < end; i++) {
-                    if (materials[this._index][i]) {
+                    if (materials[index][i]) {
                         let position   = (i % MaxSize + pos);
-                        let item       = materials[this._index][i].item;
-                        let count      = materials[this._index][i].count;
+                        let item       = materials[index][i].item;
+                        let count      = materials[index][i].count;
                         let need       = count * this._number; // 必要数
                         let possession = $gameParty.numItems(item); // 所持数
+                        let rect = this.itemLineRect(index);
+                        let maxItemWidth = this.textWidth('0000 / 0000'); // TODO: Potadra_Max_Item 連携
+                        let maxItemX = rect.x + rect.width - maxItemWidth;
+                        let y = 34 * position;
+                        let nameWidth = rect.width - maxItemWidth;
                         this.changePaintOpacity(possession >= need);
-                        this.drawItemName(item, 0, 34 * position, 390 - this.textWidth("0000000"));
-                        this.drawText(need + " / " + possession, 420 - this.textWidth("0000000"), 34 * position, 84, "right");
+                        this.drawItemName(item, 0, y, nameWidth);
+                        this.drawText(need + " / " + possession, maxItemX, y, maxItemWidth, "right");
+                        this.changePaintOpacity(true);
                     }
                 }
-            }
+            } 
         }
 
         /**

@@ -1,13 +1,13 @@
 /*:
 @plugindesc
-MVベース Ver0.6.0(2021/5/27)
+MVベース Ver0.7.0(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base_MV.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 動かせるプラグインの追加
+- Sprite_Base 復活
 
 ・TODO
 - Argument must be a Rectangle を解決するオプション
@@ -889,4 +889,80 @@ ImageCache.prototype.getErrorBitmap = function(){
     }
 
     return null;
+};
+
+// Sprite_Base 復活
+
+/**
+ * アニメーションの表示処理を追加したスプライトのクラスです。
+ *
+ * @class
+ */
+function Sprite_Base() {
+    this.initialize.apply(this, arguments);
+}
+
+Sprite_Base.prototype = Object.create(Sprite.prototype);
+Sprite_Base.prototype.constructor = Sprite_Base;
+
+/**
+ * オブジェクト初期化
+ */
+Sprite_Base.prototype.initialize = function() {
+    Sprite.prototype.initialize.call(this);
+    this._animationSprites = [];
+    this._effectTarget = this;
+    this._hiding = false;
+};
+
+/**
+ * フレーム更新
+ */
+Sprite_Base.prototype.update = function() {
+    Sprite.prototype.update.call(this);
+    this.updateVisibility();
+    this.updateAnimationSprites();
+};
+
+Sprite_Base.prototype.hide = function() {
+    this._hiding = true;
+    this.updateVisibility();
+};
+
+Sprite_Base.prototype.show = function() {
+    this._hiding = false;
+    this.updateVisibility();
+};
+
+Sprite_Base.prototype.updateVisibility = function() {
+    this.visible = !this._hiding;
+};
+
+Sprite_Base.prototype.updateAnimationSprites = function() {
+    if (this._animationSprites.length > 0) {
+        var sprites = this._animationSprites.clone();
+        this._animationSprites = [];
+        for (var i = 0; i < sprites.length; i++) {
+            var sprite = sprites[i];
+            if (sprite.isPlaying()) {
+                this._animationSprites.push(sprite);
+            } else {
+                sprite.remove();
+            }
+        }
+    }
+};
+
+/**
+ * アニメーションの開始
+ */
+Sprite_Base.prototype.startAnimation = function(animation, mirror, delay) {
+    var sprite = new Sprite_Animation();
+    sprite.setup(this._effectTarget, animation, mirror, delay);
+    this.parent.addChild(sprite);
+    this._animationSprites.push(sprite);
+};
+
+Sprite_Base.prototype.isAnimationPlaying = function() {
+    return this._animationSprites.length > 0;
 };

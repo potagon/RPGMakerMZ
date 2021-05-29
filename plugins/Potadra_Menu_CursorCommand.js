@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-メニューコマンドカーソル移動追加 Ver1.2.3(2021/5/27)
+メニューコマンドカーソル移動追加 Ver1.3.0(2021/5/29)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Menu_CursorCommand.js
 @base Potadra_Base
@@ -9,7 +9,9 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- 左メニュー(Potadra_Menu_Left.js)導入時に以下設定のキーが逆になるように修正
+* メニュー←キー決定
+* メニューステータス→キーキャンセル
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -27,12 +29,14 @@ https://opensource.org/licenses/mit-license.php
 @type boolean
 @text メニュー←キー決定
 @desc メニューで←キーで決定と同じ動作にする
+※ 左メニュー(Potadra_Menu_Left.js)導入時は→キー
 @default false
 
 @param MenuStatusCancel
 @type boolean
 @text メニューステータス→キーキャンセル
 @desc メニューステータスで→キーでキャンセルと同じ動作にする
+※ 左メニュー(Potadra_Menu_Left.js)導入時は←キー
 @default true
 
 @param ItemCategoryQW
@@ -67,6 +71,9 @@ https://opensource.org/licenses/mit-license.php
     const SkillTypeCursor  = Potadra.convertBool(params.SkillTypeCursor);
     const StatusTypeCursor = Potadra.convertBool(params.StatusTypeCursor);
 
+    // 他プラグイン連携(プラグインの導入有無)
+    const Potadra_Menu_Left = Potadra.isPlugin('Potadra_Menu_Left');
+
     // メニューで←キーで決定と同じ動作にする
     if (MenuOk) {
         /**
@@ -91,8 +98,14 @@ https://opensource.org/licenses/mit-license.php
          */
         Window_MenuCommand.prototype.addProcessHandling = function() {
             if (this.isOpenAndActive()) {
-                if (Input.isRepeated("left") && Input.isTriggered("left")) {
-                    return this.processOk();
+                if (Potadra_Menu_Left) {
+                    if (Input.isRepeated("right") && Input.isTriggered("right")) {
+                        return this.processOk();
+                    }
+                } else {
+                    if (Input.isRepeated("left") && Input.isTriggered("left")) {
+                        return this.processOk();
+                    }
                 }
             }
         };
@@ -122,8 +135,14 @@ https://opensource.org/licenses/mit-license.php
          */
         Window_MenuStatus.prototype.addProcessHandling = function() {
             if (this.isOpenAndActive()) {
-                if (Input.isRepeated("right") && Input.isTriggered("right")) {
-                    return this.processCancel();
+                if (Potadra_Menu_Left) {
+                    if (Input.isRepeated("left") && Input.isTriggered("left")) {
+                        return this.processCancel();
+                    }
+                } else {
+                    if (Input.isRepeated("right") && Input.isTriggered("right")) {
+                        return this.processCancel();
+                    }
                 }
             }
         };
