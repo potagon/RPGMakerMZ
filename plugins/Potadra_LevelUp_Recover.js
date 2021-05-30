@@ -1,13 +1,13 @@
 /*:
 @plugindesc
-レベルアップ時全回復 Ver1.3.3(2021/5/27)
+レベルアップ時全回復 Ver1.3.3(2021/5/30)
 
-@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_LevelUpRecover.js
+@url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_LevelUp_Recover.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- プラグイン名変更
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

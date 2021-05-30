@@ -1,14 +1,16 @@
 /*:
 @plugindesc
-ベース Ver1.4.0(2021/5/29)
+ベース Ver1.5.0(2021/5/30)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- SEをコンバートする機能追加
-- スイッチ判定で真偽値を指定できるように修正
+- 他プラグインのパラメータを取得する機能追加
+- convertSe を convertAudio に変更
+- stringArray でデータがないとき、空配列を返すように修正
+- 個数表示の最大桁数処理を Potadra_Max_Item.js から移動
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -53,6 +55,20 @@ class Potadra {
     }
 
     /**
+     * 他プラグインのパラメータ取得
+     *
+     * @param {string} plugin_name - パラメータを取得するプラグイン名(.js の記載は除く)
+     * @returns {object} プラグインパラメータ
+     */
+    static getPluginParams(plugin_name) {
+        let params = false;
+        if (this.isPlugin(plugin_name)) {
+            params = PluginManager.parameters(plugin_name);
+        }
+        return params;
+    }
+
+    /**
      * libs 以下にライブラリを追加
      *
      * @param {string} lib_name - 追加するライブラリ名(.js の記載は除く)
@@ -86,18 +102,18 @@ class Potadra {
     }
 
     /**
-     * SE変換
+     * Audio変換
      *
-     * @param {struct} struct_se - SE情報
-     * @returns {Object} 再生できる状態のSE情報
+     * @param {struct} struct_audio - Audio情報
+     * @returns {Object} 再生できる状態のAudio情報
      */
-    static convertSe(struct_se) {
-        if (struct_se) {
-            let se     = JSON.parse(struct_se);
-            let name   = String(se.name);
-            let volume = Number(se.volume || 85);
-            let pitch  = Number(se.pitch || 100);
-            let pan    = Number(se.pan || 0);
+    static convertAudio(struct_audio) {
+        if (struct_audio) {
+            let audio  = JSON.parse(struct_audio);
+            let name   = String(audio.name);
+            let volume = Number(audio.volume || 90);
+            let pitch  = Number(audio.pitch || 100);
+            let pan    = Number(audio.pan || 0);
             return {"name": name, "volume": volume, "pitch": pitch, "pan": pan};
         } else {
             return false;
@@ -126,8 +142,10 @@ class Potadra {
      */
     static stringArray(data) {
         let arr = [];
-        for (let datum of JSON.parse(data)) {
-            arr.push(String(datum));
+        if (data) {
+            for (let datum of JSON.parse(data)) {
+                arr.push(String(datum));
+            }
         }
         return arr;
     }
@@ -340,5 +358,22 @@ class Potadra {
                 return false;
             }
         }
+    }
+
+    /**
+     * 個数表示の最大桁数を取得
+     *
+     * @param {Object} item - アイテムのオブジェクト
+     * @param {string} max_digits - 最大桁数
+     * @param {string} meta_name - メモ欄タグ
+     * @returns {string} 個数表示の最大桁数
+     */
+    static maxDigits(item, max_digits, meta_name) {
+        if (!item) {
+            return max_digits;
+        }
+        const max_digit_str = item.meta[meta_name];
+        let max_digit = max_digit_str ? String(max_digit_str) : max_digits;
+        return max_digit;
     }
 }

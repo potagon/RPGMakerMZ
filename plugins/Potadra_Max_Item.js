@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテムの最大所持数変更 Ver1.4.0(2021/5/29)
+アイテムの最大所持数変更 Ver1.5.0(2021/5/30)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Item.js
 @base Potadra_Base
@@ -9,9 +9,8 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- 個数表示の最大桁数を調整するタグを追加
-- タグの名称を変更するパラメータを追加
-- 説明修正
+- 最大桁数に : は含めないように修正
+- Potadra_Name_CreateShop.js との連携のため、最大桁数の設定処理をベースプラグインに移動
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -29,8 +28,7 @@ https://opensource.org/licenses/mit-license.php
 指定すると個別に最大所持数を設定できます。
 
 また、<最大桁数:00000>のように設定すると  
-アイテム一覧時の桁数の表示範囲を調整できます。  
-この桁数には ':' も含まれるので、注意してください。 
+アイテム一覧時の桁数の表示範囲を調整できます。
 
 @param MaxItem
 @type number
@@ -43,7 +41,7 @@ https://opensource.org/licenses/mit-license.php
 @type string
 @text 個数表示の最大桁数
 @desc 個数表示の最大桁数
-@default 00000
+@default 0000
 
 @param MaxCol
 @type number
@@ -113,21 +111,6 @@ https://opensource.org/licenses/mit-license.php
         const max_item_str = item.meta[MaxItemMetaName];
         let max_item = max_item_str ? Number(max_item_str) : MaxItem;
         return max_item;
-    }
-
-    /**
-     * 個数表示の最大桁数を取得
-     *
-     * @param {Object} item - アイテムのオブジェクト
-     * @returns {string} 個数表示の最大桁数
-     */
-    function maxDigits(item) {
-        if (!item) {
-            return MaxDigits;
-        }
-        const max_digit_str = item.meta[MaxDigitsMetaName];
-        let max_digit = max_digit_str ? String(max_digit_str) : MaxDigits;
-        return max_digit;
     }
 
     /**
@@ -248,7 +231,7 @@ https://opensource.org/licenses/mit-license.php
      * @returns {} 
      */
     Window_ItemList.prototype.numberWidth = function(item) {
-        return this.textWidth(maxDigits(item));
+        return this.textWidth(Potadra.maxDigits(item, MaxDigits, MaxDigitsMetaName) + '0');
     };
 
     /**

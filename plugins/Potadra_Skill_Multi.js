@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-スキル複数追加 Ver1.2.4(2021/5/27)
+スキル複数追加 Ver1.2.5(2021/5/30)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Skill_Multi.js
 @base Potadra_Base
@@ -10,7 +10,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- リファクタ
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -84,12 +84,9 @@ https://opensource.org/licenses/mit-license.php
 
     // 各パラメータ用変数
     const SkillTypeId   = Number(params.SkillTypeId || 3);
-    let ExcludeSkills   = [];
+    let ExcludeSkills   = Potadra.stringArray(params.ExcludeSkills);
     let CompositeSkills = [];
     let HideSkills      = [];
-    if (params.ExcludeSkills) {
-        ExcludeSkills = Potadra.stringArray(params.ExcludeSkills);
-    }
     if (params.CompositeSkills) {
         CompositeSkills = JSON.parse(params.CompositeSkills);
     }

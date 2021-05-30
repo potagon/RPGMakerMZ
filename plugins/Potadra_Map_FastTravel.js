@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ファストトラベル Ver0.5.0(2021/5/29)
+ファストトラベル Ver0.6.0(2021/5/30)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Map_FastTravel.js
 @base Potadra_Base
@@ -9,7 +9,9 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- 開発版を公開
+- 移動先のマップ名称を指定できるパラメータ追加
+- コンバート処理の名称修正
+- メニューの表示処理修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -22,23 +24,31 @@ https://opensource.org/licenses/mit-license.php
 ## 使い方
 
 
-@param MenuName
+@param MenuCommand
 @text メニュー表示名
 @desc メニューの表示名
+空文字でメニューに表示しません
 @default ファストトラベル
 
+@param MenuSwitch
+@parent MenuCommand
+@type switch
+@text メニュー表示スイッチ
+@desc ONのときメニューにコマンドを表示します
+0(なし)の場合、常にメニューへ表示します
+@default 0
+
+@param DisableMenuSwitch
+@parent MenuCommand
+@type switch
+@text メニュー禁止スイッチ
+@desc ONのときコマンドの使用を禁止します
+@default 0
+
 @param maps
-@parent MenuName
+@parent MenuCommand
 @type struct<MoveMapList>[]
 @text 移動先マップ情報
-
-@param disableSwitch
-@parent MenuName
-@type switch
-@text ファストトラベル禁止スイッチ
-@desc このスイッチがONのときファストトラベルを実行不可にします
-0(なし)の場合、常にファストトラベルが可能になります
-@default 0
 
 @param cancelSwitch
 @type switch
@@ -63,6 +73,11 @@ https://opensource.org/licenses/mit-license.php
 @desc このスイッチがONのときに行き先を表示します
 0(なし)の場合、常に移動先が表示されます
 @default 0
+
+@param move_map_name
+@type string
+@text マップ移動先名
+@desc 移動先のマップ名称を指定します
 
 @param common_event
 @type common_event
@@ -177,11 +192,12 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const MenuName      = String(params.MenuName);
-    const disableSwitch = Number(params.disableSwitch || 0);
-    const cancelSwitch  = Number(params.cancelSwitch || 0);
+    const MenuCommand       = String(params.MenuCommand);
+    const MenuSwitch        = Number(params.MenuSwitch || 0);
+    const DisableMenuSwitch = Number(params.DisableMenuSwitch || 0);
+    const cancelSwitch      = Number(params.cancelSwitch || 0);
     let MoveMapList = null;
-    if (MenuName && params.maps) {
+    if (MenuCommand && params.maps) {
         MoveMapList = JSON.parse(params.maps);
     }
 
@@ -267,7 +283,7 @@ https://opensource.org/licenses/mit-license.php
             let y            = Number(map_data.y || 0);
             let direction    = Number(map_data.direction || 0);
             let fade_type    = Number(map_data.fade_type || 0);
-            let se           = Potadra.convertSe(map_data.se);
+            let se           = Potadra.convertAudio(map_data.se);
             SceneManager.goto(Scene_Map);
             if (common_event === 0) {
                 if (se) {
@@ -281,19 +297,46 @@ https://opensource.org/licenses/mit-license.php
     }
 
 
-    /**
-     * メニュー画面で表示するコマンドウィンドウです。
-     *
-     * @class
-     */
-    if (MenuName) {
+    if (MenuCommand) {
+        /**
+         * メニュー画面で表示するコマンドウィンドウです。
+         *
+         * @class
+         */
+
         /**
          * 独自コマンドの追加用
          */
         const _Window_MenuCommand_addOriginalCommands = Window_MenuCommand.prototype.addOriginalCommands;
         Window_MenuCommand.prototype.addOriginalCommands = function() {
             _Window_MenuCommand_addOriginalCommands.apply(this, arguments);
-            this.addCommand(MenuName, "fast_travel_menu", Potadra.checkSwitch(disableSwitch, false));
+            if (Potadra.checkSwitch(MenuSwitch)) {
+                this.addCommand(MenuCommand, "fast_travel_menu", Potadra.checkSwitch(DisableMenuSwitch, false));
+            }
+        };
+
+
+        /**
+         * メニュー画面の処理を行うクラスです。
+         *
+         * @class
+         */
+
+        /**
+         * コマンドウィンドウの作成
+         */
+        const _Scene_Menu_createCommandWindow = Scene_Menu.prototype.createCommandWindow;
+        Scene_Menu.prototype.createCommandWindow = function() {
+            _Scene_Menu_createCommandWindow.apply(this, arguments);
+            this._commandWindow.setHandler("fast_travel_menu", this.fast_travel_menu.bind(this));
+        };
+
+        /**
+         * コマンド［ファストトラベル］
+         */
+        Scene_Menu.prototype.fast_travel_menu = function() {
+            SceneManager.push(Scene_FastTravel);
+            SceneManager.prepareNextScene(MoveMapList);
         };
     }
 
@@ -333,10 +376,11 @@ https://opensource.org/licenses/mit-license.php
                     let map_data     = JSON.parse(this._data[i]);
                     let showSwitch   = Number(map_data.showSwitch || 0);
                     if (Potadra.checkSwitch(showSwitch)) {
-                        let mapId        = Number(map_data.mapId || 0);
-                        let common_event = Number(map_data.common_event || 0);
-                        let command_name = $gameMap.displayName() || $dataMapInfos[mapId].name;
-                        if (common_event !== 0) {
+                        let move_map_name = String(map_data.move_map_name);
+                        let mapId         = Number(map_data.mapId || 0);
+                        let common_event  = Number(map_data.common_event || 0);
+                        let command_name  = move_map_name || $gameMap.displayName() || $dataMapInfos[mapId].name || mapId;
+                        if (!move_map_name && common_event !== 0) {
                             command_name = $dataCommonEvents[common_event].name;
                         }
                         this.addCommand(command_name, "map");
@@ -344,30 +388,5 @@ https://opensource.org/licenses/mit-license.php
                 }
             }
         }
-    }
-
-
-    /**
-     * メニュー画面の処理を行うクラスです。
-     *
-     * @class
-     */
-    if (MenuName) {
-        /**
-         * コマンドウィンドウの作成
-         */
-        const _Scene_Menu_createCommandWindow = Scene_Menu.prototype.createCommandWindow;
-        Scene_Menu.prototype.createCommandWindow = function() {
-            _Scene_Menu_createCommandWindow.apply(this, arguments);
-            this._commandWindow.setHandler("fast_travel_menu", this.fast_travel_menu.bind(this));
-        };
-
-        /**
-         * コマンド［ファストトラベル］
-         */
-        Scene_Menu.prototype.fast_travel_menu = function() {
-            SceneManager.push(Scene_FastTravel);
-            SceneManager.prepareNextScene(MoveMapList);
-        };
     }
 })();

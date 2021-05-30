@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-合成屋 Ver0.8.0(2021/5/29)
+合成屋 Ver0.9.0(2021/5/30)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Name_CreateShop.js
 @base Potadra_Base
@@ -9,7 +9,8 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- フォントを変更すると、必要素材の表示がおかしくなる問題修正
+- 必要素材の個数表示を Potadra_Max_Item.js の最大桁数で変動するように変更
+- メニューの表示処理修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -22,21 +23,36 @@ https://opensource.org/licenses/mit-license.php
 ## 使い方
 
 
-@param MenuName
+@param MenuCommand
 @text メニュー表示名
 @desc メニューの表示名
 空文字でメニューに表示しません
 @default アイテム合成
 
+@param MenuSwitch
+@parent MenuCommand
+@type switch
+@text メニュー表示スイッチ
+@desc ONのときメニューにコマンドを表示します
+0(なし)の場合、常にメニューへ表示します
+@default 0
+
+@param DisableMenuSwitch
+@parent MenuCommand
+@type switch
+@text メニュー禁止スイッチ
+@desc ONのときコマンドの使用を禁止します
+@default 0
+
 @param MenuGoods
-@parent MenuName
+@parent MenuCommand
 @type struct<GoodsList>[]
 @text メニュー合成リスト
 @desc メニュー画面で開いたときの合成リスト
 設定しない場合、メニューに表示しません
 
 @param BuyOnly
-@parent MenuName
+@parent MenuCommand
 @type boolean
 @text 合成のみ
 @desc 合成するのみにするか
@@ -45,25 +61,25 @@ https://opensource.org/licenses/mit-license.php
 @default false
 
 @param BuyName
-@parent MenuName
+@parent MenuCommand
 @text 合成屋購入コマンド名
 @desc 合成屋の購入コマンド名
 @default 合成する
 
 @param SellName
-@parent MenuName
+@parent MenuCommand
 @text 合成屋売却コマンド名
 @desc 合成屋の売却コマンド名
 @default 分解する
 
 @param CancelName
-@parent MenuName
+@parent MenuCommand
 @text 合成屋キャンセルコマンド名
 @desc 合成屋のキャンセルコマンド名
 @default やめる
 
 @param MaterialName
-@parent MenuName
+@parent MenuCommand
 @text 必要素材名
 @desc 必要素材の表示名
 @default 必要素材
@@ -161,7 +177,9 @@ https://opensource.org/licenses/mit-license.php
     const params      = PluginManager.parameters(plugin_name);
 
     // 各パラメータ用変数
-    const MenuName   = String(params.MenuName);
+    const MenuCommand       = String(params.MenuCommand);
+    const MenuSwitch        = Number(params.MenuSwitch || 0);
+    const DisableMenuSwitch = Number(params.DisableMenuSwitch || 0);
     let MenuGoods    = null;
     if (params.MenuGoods) {
         MenuGoods = JSON.parse(params.MenuGoods);
@@ -178,6 +196,11 @@ https://opensource.org/licenses/mit-license.php
     }
     const MiniWindow = Potadra.convertBool(params.MiniWindow);
     const SubCommand = Potadra.convertBool(params.SubCommand);
+
+    // 他プラグイン連携(パラメータ取得)
+    const max_item_params   = Potadra.getPluginParams('Potadra_Max_Item');
+    const MaxDigits         = String(max_item_params.MaxDigits) || '00';
+    const MaxDigitsMetaName = String(max_item_params.MaxDigitsMetaName) || '最大桁数';
 
     // プラグインコマンド(合成屋)
     PluginManager.registerCommand(plugin_name, "create_shop", args => {
@@ -237,7 +260,7 @@ https://opensource.org/licenses/mit-license.php
     }
 
     // メニューでの合成
-    if (MenuName && MenuGoods) {
+    if (MenuCommand && MenuGoods) {
         /**
          * メニュー画面で表示するコマンドウィンドウです。
          *
@@ -250,7 +273,9 @@ https://opensource.org/licenses/mit-license.php
         const _Window_MenuCommand_addOriginalCommands = Window_MenuCommand.prototype.addOriginalCommands;
         Window_MenuCommand.prototype.addOriginalCommands = function() {
             _Window_MenuCommand_addOriginalCommands.apply(this, arguments);
-            this.addCommand(MenuName, "create_shop");
+            if (Potadra.checkSwitch(MenuSwitch)) {
+                this.addCommand(MenuCommand, "create_shop", Potadra.checkSwitch(DisableMenuSwitch, false));
+            }
         };
 
 
@@ -270,7 +295,7 @@ https://opensource.org/licenses/mit-license.php
         };
     }
 
-    if (MenuName || SubCommand) {
+    if (MenuCommand || SubCommand) {
         /**
          * コマンド［合成］
          */
@@ -534,7 +559,8 @@ https://opensource.org/licenses/mit-license.php
                         let need       = count * this._number; // 必要数
                         let possession = $gameParty.numItems(item); // 所持数
                         let rect = this.itemLineRect(index);
-                        let maxItemWidth = this.textWidth('0000 / 0000'); // TODO: Potadra_Max_Item 連携
+                        let numberWidth = Potadra.maxDigits(item, MaxDigits, MaxDigitsMetaName);
+                        let maxItemWidth = this.textWidth(Potadra.maxDigits(item, numberWidth + numberWidth + ' / '));
                         let maxItemX = rect.x + rect.width - maxItemWidth;
                         let y = 34 * position;
                         let nameWidth = rect.width - maxItemWidth;

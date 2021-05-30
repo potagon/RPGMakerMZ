@@ -5,6 +5,7 @@ plugins/Potadra_Base_Item.js
 plugins/Potadra_Command_TempVariables.js
 plugins/Potadra_Event_Info.js
 plugins/Potadra_Item_ShowSecret.js
+plugins/Potadra_LevelUp_Sound.js
 plugins/Potadra_Map_Minecraft.js
 plugins/Potadra_Max.js
 plugins/Potadra_Max_LevelCap.js
@@ -14,7 +15,6 @@ plugins/Potadra_Name_Switch.js
 plugins/Potadra_Save_StartDelete.js
 plugins/Potadra_Skill_RepeatAnimation.js
 plugins/Potadra_System_DisableRandomEncount.js
-plugins/Potadra_System_LevelUpSound.js
 plugins/Potadra_Test.js
 plugins/Potadra_Test_MenuWindow.js
 plugins/Potadra_Test_SimpleWindow.js
