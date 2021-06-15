@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテムの最大所持数変更 Ver1.5.0(2021/5/30)
+アイテムの最大所持数変更 Ver1.5.1(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Item.js
 @base Potadra_Base
@@ -9,8 +9,9 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- 最大桁数に : は含めないように修正
-- Potadra_Name_CreateShop.js との連携のため、最大桁数の設定処理をベースプラグインに移動
+- Window_ItemList.prototype.drawItem の余計な定義を削除
+- JSDoc 修正
+- meta データの取得方法修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -108,7 +109,7 @@ https://opensource.org/licenses/mit-license.php
         if (!item) {
             return MaxItem;
         }
-        const max_item_str = item.meta[MaxItemMetaName];
+        const max_item_str = Potadra.meta(item.meta, MaxItemMetaName);
         let max_item = max_item_str ? Number(max_item_str) : MaxItem;
         return max_item;
     }
@@ -177,23 +178,6 @@ https://opensource.org/licenses/mit-license.php
     };
 
     /**
-     * 項目の描画
-     *
-     * @param {} index - 
-     */
-    Window_ItemList.prototype.drawItem = function(index) {
-        const item = this.itemAt(index);
-        if (item) {
-            const numberWidth = this.numberWidth();
-            const rect = this.itemLineRect(index);
-            this.changePaintOpacity(this.isEnabled(item));
-            this.drawItemName(item, rect.x, rect.y, rect.width - numberWidth);
-            this.drawItemNumber(item, rect.x, rect.y, rect.width);
-            this.changePaintOpacity(1);
-        }
-    };
-
-    /**
      * アイテム画面で、所持アイテムの一覧を表示するウィンドウです。
      *
      * @class
@@ -241,6 +225,7 @@ https://opensource.org/licenses/mit-license.php
      * @param {} x -
      * @param {} y -
      * @param {} width -
+     * @param {} numberWidth - 
      */
     Window_ItemList.prototype.drawItemNumber = function(item, x, y, width, numberWidth) {
         if (this.needsNumber()) {

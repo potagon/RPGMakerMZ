@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-レベル上限突破 Ver0.12.5(2021/5/27)
+レベル上限突破 Ver0.12.6(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Max_Level.js
 @base Potadra_Base
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- meta データの取得方法修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -135,7 +135,7 @@ https://opensource.org/licenses/mit-license.php
      * @returns {}
      */
     Game_Actor.prototype.maxLevel = function() {
-        const max_level_str = this.actor().meta['最大レベル'];
+        const max_level_str = Potadra.meta(this.actor().meta, '最大レベル');
         let max_level = max_level_str ? Number(max_level_str) : MaxLevel;
         if (max_level === 0) {
             max_level = Infinity;
@@ -158,8 +158,8 @@ https://opensource.org/licenses/mit-license.php
             init_param = Number(data[0]);
             param      = Number(data[1]);
         } else {
-            const small_fish = this.actor().meta[SmallFishName];
-            const mob        = this.actor().meta[MobName];
+            const small_fish = Potadra.meta(this.actor().meta, SmallFishName);
+            const mob        = Potadra.meta(this.actor().meta, MobName);
             if (paramId == 0 || paramId == 1) {
                 param = 10;
                 if (small_fish) {

@@ -1,13 +1,16 @@
 /*:
 @plugindesc
-大事なもの売却禁止 Ver0.5.0(2021/5/17)
+大事なもの売却禁止 Ver0.5.1(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Shop_KeyItem.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 開発版を公開
+- TODO追記
+
+・TODO
+- メモ欄で売却可能にする大事なもの設定
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.

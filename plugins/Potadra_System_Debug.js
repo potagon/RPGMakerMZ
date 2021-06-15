@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-デバッグ用のプラグイン Ver1.2.3(2021/5/27)
+デバッグ用のプラグイン Ver1.2.4(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_System_Debug.js
 @base Potadra_Base
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- プラグインロードエラースキップのデフォルト値を変更
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -26,7 +26,7 @@ https://opensource.org/licenses/mit-license.php
 @type boolean
 @text プラグインロードエラースキップ
 @desc ONのプラグインが存在しなくても、ゲームを起動出来るようになります
-@default false
+@default true
 */
 (() => {
     'use strict';

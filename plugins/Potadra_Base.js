@@ -1,16 +1,15 @@
 /*:
 @plugindesc
-ベース Ver1.5.0(2021/5/30)
+ベース Ver1.6.0(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Base.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- 他プラグインのパラメータを取得する機能追加
-- convertSe を convertAudio に変更
-- stringArray でデータがないとき、空配列を返すように修正
-- 個数表示の最大桁数処理を Potadra_Max_Item.js から移動
+- Potadra_System_BugFix.js の機能を移行
+- プラグイン名取得の正規表現修正
+- metaData にて、各データに trim を実行するように修正 
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -25,8 +24,33 @@ https://opensource.org/licenses/mit-license.php
 
 ## 使い方
 1. 他のプラグインの最上部に配置してください。
+2. バグ修正用のパラメータ設定を必要に応じて修正する。
 
-上記以外に設定は必要ありません。
+@param FixBattleEnemyDrawItem
+@type boolean
+@text 敵キャラウィンドウバグ修正
+@desc 敵キャラを選択するウィンドウで制御文字が使えないバグ修正
+@on 修正する
+@off 修正しない
+@default true
+
+@param FixSkillCostSize
+@type boolean
+@text スキルコストサイズバグ修正
+@desc 消費MPが4桁かつ、名前が長いスキルの
+表示がおかしくなる問題修正(3桁 => 4桁に修正)
+@on 修正する
+@off 修正しない
+@default true
+
+@param FixStatusEquipOver
+@type boolean
+@text 装備タイプバグ修正
+@desc 装備タイプが7個以上あるときステータスの
+装備に表示しきれないバグ修正(スクロールできるように修正)
+@on 修正する
+@off 修正しない
+@default false
 */
 
 /**
@@ -38,10 +62,10 @@ class Potadra {
     /**
      * プラグイン名取得
      *
-     * @returns {string} プラグイン名
+     * @returns {string} プラグイン名(.js の記載は除く)
      */
     static getPluginName() {
-        return document.currentScript.src.replace(/.+(Potadra.+)\.js/, '$1');
+        return document.currentScript.src.replace(/.+\/(.+)\.js/, '$1');
     }
 
     /**
@@ -270,7 +294,7 @@ class Potadra {
         if (meta_data) {
             const data = meta_data.split(delimiter);
             if (data) {
-                return data;
+                return data.map(datum => datum.trim());
             }
         }
         return false;
@@ -377,3 +401,64 @@ class Potadra {
         return max_digit;
     }
 }
+
+// バグ修正
+(() => {
+    'use strict';
+
+    // パラメータ用変数
+    const plugin_name = Potadra.getPluginName();
+    const params      = PluginManager.parameters(plugin_name);
+
+    // 各パラメータ用変数
+    const FixBattleEnemyDrawItem = Potadra.convertBool(params.FixBattleEnemyDrawItem);
+    const FixSkillCostSize       = Potadra.convertBool(params.FixSkillCostSize);
+    const FixStatusEquipOver     = Potadra.convertBool(params.FixStatusEquipOver);
+
+    /**
+     * バトル画面で、行動対象の敵キャラを選択するウィンドウです。
+     *
+     * @class
+     */
+
+    /**
+     * 項目の描画
+     *
+     * @param {number} index -
+     */
+    if (FixBattleEnemyDrawItem) {
+        Window_BattleEnemy.prototype.drawItem = function(index) {
+            this.resetTextColor();
+            const name = this._enemies[index].name();
+            const rect = this.itemLineRect(index);
+            this.drawTextEx(name, rect.x, rect.y, rect.width);
+        };
+    }
+
+    /**
+     * オブジェクト初期化
+     *     info_viewport : 情報表示用ビューポート
+     *
+     * @param {} rect -
+     */
+    if (FixStatusEquipOver) {
+        const _Window_StatusEquip_initialize = Window_StatusEquip.prototype.initialize;
+        Window_StatusEquip.prototype.initialize = function(rect) {
+            _Window_StatusEquip_initialize.apply(this, arguments);
+            this.refresh();
+            this.select(0);
+            this.activate();
+        };
+    }
+
+    /**
+     * 
+     *
+     * @returns {} 
+     */
+    if (FixSkillCostSize) {
+        Window_SkillList.prototype.costWidth = function() {
+            return this.textWidth("0000");
+        };
+    }
+})();

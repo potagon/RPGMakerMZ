@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-BGMランダム再生 Ver1.3.3(2021/5/27)
+BGMランダム再生 Ver1.3.4(2021/6/15)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Potadra_Command_RandomBgm.js
 @base Potadra_Base
@@ -9,7 +9,7 @@ BGMランダム再生 Ver1.3.3(2021/5/27)
 @author ポテトドラゴン
 
 ・アップデート情報
-- ベースプラグイン(Potadra_Base.js)の順序で問題を発生するように修正
+- 説明修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -20,6 +20,12 @@ https://opensource.org/licenses/mit-license.php
 プラグインコマンド指定したBGMの中からランダムにBGMを再生します。
 
 ## 使い方
+
+
+### パラメータ
+
+
+### プラグインコマンド
 
 
 @param TitleRandom
