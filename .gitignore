@@ -23,7 +23,6 @@ plugins/*
 plugins/Base/Personal_Item.js
 plugins/Command/TempVariables.js
 plugins/Event/Info.js
-plugins/Item/ShowSecret.js
 plugins/Level/LevelUpSound.js
 plugins/Map/Minecraft.js
 plugins/Max/Max.js
@@ -33,9 +32,9 @@ plugins/Name/NameSwitch.js
 plugins/Save/StartDelete.js
 plugins/Skill/RepeatAnimation.js
 plugins/System/DisableRandomEncount.js
-plugins/Test/Test.js
 plugins/Test/MenuWindow.js
 plugins/Test/SimpleWindow.js
+plugins/Test/Test.js
 plugins/Test/TestWindow.js
 plugins/Test/テンプレート.js
 plugins/Window/Story.js

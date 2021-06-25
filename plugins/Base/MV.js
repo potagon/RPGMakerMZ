@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-MVベース Ver0.8.0(2021//6/25)
+MVベース Ver0.8.0(2021/6/25)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Base/MV.js
 @target MZ
