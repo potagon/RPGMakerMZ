@@ -1,16 +1,16 @@
 /*:
 @plugindesc
-スキル名前保存 Ver0.6.0(2021/6/25)
+スキル名前保存 Ver0.6.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Name/NameSkill.js
 @base Potadra
 @orderAfter Potadra
-@orderBefore Potadra_Skill_Multi
+@orderBefore MultiSkill
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- @orderBefore MultiSkill に修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -22,6 +22,10 @@ https://opensource.org/licenses/mit-license.php
 
 ## 使い方
 
+
+### プラグインの競合対策
+this._skills を表示として使用している部分は、競合することがあるので、  
+this.skillIds() と置き換えてください。
 */
 (() => {
     'use strict';
@@ -82,7 +86,7 @@ https://opensource.org/licenses/mit-license.php
      *
      * @returns {array} 取得済みスキル配列
      */
-     Game_Actor.prototype.skillIds = function() {
+    Game_Actor.prototype.skillIds = function() {
         const list = [];
         let skills = this._skills.map(name => Potadra.nameSearch($dataSkills, name));
 

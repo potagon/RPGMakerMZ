@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテム名前保存 Ver0.7.0(2021/6/25)
+アイテム名前保存 Ver0.7.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Name/NameItem.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- MaxItemプラグインとの連携が出来ていないバグ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -26,7 +26,7 @@ https://opensource.org/licenses/mit-license.php
     'use strict';
 
     // 他プラグイン連携(プラグインの導入有無)
-    const Potadra_Max_Item = Potadra.isPlugin('Potadra_Max_Item');
+    const MaxItem = Potadra.isPlugin('MaxItem');
 
     /**
      * アイテムの所持数取得
@@ -67,7 +67,7 @@ https://opensource.org/licenses/mit-license.php
     };
 
     // アイテムの最大所持数変更が有効なときは自動売却があるので、こちらの設定は無効
-    if (!Potadra_Max_Item) {
+    if (!MaxItem) {
         /**
          * アイテムの増加（減少）
          *     include_equip : 装備品も含める

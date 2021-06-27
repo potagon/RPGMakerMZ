@@ -17,7 +17,7 @@ https://opensource.org/licenses/mit-license.php
 
 @help
 ## 概要
-メニュー画面のアイテムに隠しアイテムを表示します
+メニュー画面のアイテムに隠しアイテムを表示します。
 
 ## 使い方
 初期設定は必要ありません。  

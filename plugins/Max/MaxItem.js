@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-アイテムの最大所持数変更 Ver1.6.0(2021/6/25)
+アイテムの最大所持数変更 Ver1.6.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Max/MaxItem.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- NameItemプラグインとの連携が出来ていないバグ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -95,7 +95,7 @@ https://opensource.org/licenses/mit-license.php
     const MaxDigitsMetaName = String(params.MaxDigitsMetaName) || '最大桁数';
 
     // 他プラグイン連携(プラグインの導入有無)
-    const Potadra_Name_Item = Potadra.isPlugin('Potadra_Name_Item');
+    const NameItem = Potadra.isPlugin('NameItem');
 
     /**
      * アイテムの最大所持数
@@ -156,7 +156,7 @@ https://opensource.org/licenses/mit-license.php
             }
 
             // アイテム名前保存
-            if (Potadra_Name_Item) {
+            if (NameItem) {
                 container[item.name] = newNumber.clamp(0, this.maxItems(item));
                 if (container[item.name] === 0) {
                     delete container[item.name];

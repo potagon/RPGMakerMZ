@@ -1,16 +1,17 @@
 /*:
 @plugindesc
-スキル複数追加 Ver1.3.0(2021/6/25)
+スキル複数追加 Ver1.3.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Skill/MultiSkill.js
 @base Potadra
 @orderAfter Potadra
-@orderAfter Potadra_Name_Skill
+@orderAfter NameSkill
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- NameSkillプラグインとの連携が出来ていないバグ修正
+- @orderAfter NameSkill に修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -95,7 +96,7 @@ https://opensource.org/licenses/mit-license.php
     }
 
     // 他プラグイン連携(プラグインの導入有無)
-    const NameSkill = Potadra.isPlugin('Potadra_Name_Skill');
+    const NameSkill = Potadra.isPlugin('NameSkill');
 
     /**
      * This section contains some methods that will be added to the standard

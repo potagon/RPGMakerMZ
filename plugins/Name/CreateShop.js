@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-合成屋 Ver0.10.0(2021/6/25)
+合成屋 Ver0.10.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Name/CreateShop.js
 @base Potadra
@@ -9,8 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
-- 解像度を変更したときに購入ウィンドウを増やすように変更
+- MaxItemプラグインとの連携が出来ていないバグ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -198,7 +197,7 @@ https://opensource.org/licenses/mit-license.php
     const SubCommand = Potadra.convertBool(params.SubCommand);
 
     // 他プラグイン連携(パラメータ取得)
-    const max_item_params   = Potadra.getPluginParams('Potadra_Max_Item');
+    const max_item_params   = Potadra.getPluginParams('MaxItem');
     const MaxDigits         = String(max_item_params.MaxDigits) || '00';
     const MaxDigitsMetaName = String(max_item_params.MaxDigitsMetaName) || '最大桁数';
 

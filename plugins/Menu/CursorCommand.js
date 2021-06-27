@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-メニューコマンドカーソル移動追加 Ver1.4.0(2021/6/25)
+メニューコマンドカーソル移動追加 Ver1.4.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Menu/CursorCommand.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- LeftMenuプラグインとの連携が出来ていないバグ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -27,14 +27,14 @@ https://opensource.org/licenses/mit-license.php
 @type boolean
 @text メニュー←キー決定
 @desc メニューで←キーで決定と同じ動作にする
-※ 左メニュー(Potadra_Menu_Left.js)導入時は→キー
+※ 左メニュー(LeftMenu.js)導入時は→キー
 @default false
 
 @param MenuStatusCancel
 @type boolean
 @text メニューステータス→キーキャンセル
 @desc メニューステータスで→キーでキャンセルと同じ動作にする
-※ 左メニュー(Potadra_Menu_Left.js)導入時は←キー
+※ 左メニュー(LeftMenu.js)導入時は←キー
 @default true
 
 @param ItemCategoryQW
@@ -70,7 +70,7 @@ https://opensource.org/licenses/mit-license.php
     const StatusTypeCursor = Potadra.convertBool(params.StatusTypeCursor);
 
     // 他プラグイン連携(プラグインの導入有無)
-    const Potadra_Menu_Left = Potadra.isPlugin('Potadra_Menu_Left');
+    const LeftMenu = Potadra.isPlugin('LeftMenu');
 
     // メニューで←キーで決定と同じ動作にする
     if (MenuOk) {
@@ -96,7 +96,7 @@ https://opensource.org/licenses/mit-license.php
          */
         Window_MenuCommand.prototype.addProcessHandling = function() {
             if (this.isOpenAndActive()) {
-                if (Potadra_Menu_Left) {
+                if (LeftMenu) {
                     if (Input.isRepeated("right") && Input.isTriggered("right")) {
                         return this.processOk();
                     }
@@ -133,7 +133,7 @@ https://opensource.org/licenses/mit-license.php
          */
         Window_MenuStatus.prototype.addProcessHandling = function() {
             if (this.isOpenAndActive()) {
-                if (Potadra_Menu_Left) {
+                if (LeftMenu) {
                     if (Input.isRepeated("left") && Input.isTriggered("left")) {
                         return this.processCancel();
                     }

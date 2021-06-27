@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-通貨単位切り替え Ver1.3.0(2021/6/25)
+通貨単位切り替え Ver1.3.1(2021/6/27)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/System/CurrencyUnit.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- プラグイン変更に伴う説明修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -28,9 +28,9 @@ https://opensource.org/licenses/mit-license.php
 イベントの実行内容を以下のように設定することで、  
 景品交換所を実現出来ます。
 
-◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：CurrencyUnit, 通貨切り替え
 ◆ショップの処理：ポーション
-◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：CurrencyUnit, 通貨切り替え
 
 景品の内容はショップの処理で変更してください。  
 また、ショップの処理を購入のみとすることで、景品交換所らしさが出ます。
@@ -50,12 +50,12 @@ https://opensource.org/licenses/mit-license.php
 
 ● G → 円(イベントの組み方)
 
-◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：CurrencyUnit, 通貨切り替え
 ◆場所移動：日本(0,0)
 
 ● 円 → G(イベントの組み方)
 
-◆プラグインコマンド：Potadra_System_CurrencyUnit, 通貨切り替え
+◆プラグインコマンド：CurrencyUnit, 通貨切り替え
 ◆場所移動：ファンタジーの世界(0,0)
 
 @param CurrencyUnitSwitch
