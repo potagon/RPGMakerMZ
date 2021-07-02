@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-戦闘スキル・アイテム選択MV風 Ver0.6.0(2021/6/25)
+戦闘スキル・アイテム選択MV風 Ver0.6.1(2021/7/2)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Battle/SkillAndItem_MV.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- 選択画面の高さを調整
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -57,13 +57,13 @@ https://opensource.org/licenses/mit-license.php
      */
     Scene_Battle.prototype.skillWindowRect = function() {
         const ww = Graphics.boxWidth;
-        let wh = Graphics.boxHeight - this.helpAreaTop() - this.helpAreaHeight();
-
+        let skill_height = Graphics.height - (this.helpAreaTop() + this._helpWindow.height);
         // コマンド・ステータスを表示する場合、その分だけスキルウィンドウのサイズを小さくする。
         if (CommandAndStatusShow) {
-            wh -= Math.max(this._statusWindow.height, this._actorCommandWindow.height);
+            skill_height -= Math.max(this._statusWindow.height, this._actorCommandWindow.height);
         }
-
+        let calc = Math.floor(skill_height / 48);
+        const wh = this.calcWindowHeight(calc, true);
         const wx = 0;
         const wy = this.helpAreaTop() + this.helpAreaHeight();
         return new Rectangle(wx, wy, ww, wh);
@@ -75,7 +75,7 @@ https://opensource.org/licenses/mit-license.php
      * @returns {} 
      */
     Scene_Battle.prototype.helpAreaTop = function() {
-        return 50;
+        return 48;
     };
 
     /**

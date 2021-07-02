@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ランダムアイテム入手 Ver1.3.0(2021/6/25)
+ランダムアイテム入手 Ver1.3.1(2021/7/2)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Name/RandomItem.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- 必要アイテムをデフォルトで消費するように変更
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -372,7 +372,7 @@ https://opensource.org/licenses/mit-license.php
 @max 100
 @min 0
 @decimals 2
-@default 0
+@default 100
 */
 (() => {
     'use strict';

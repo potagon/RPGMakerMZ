@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-合成屋 Ver0.10.1(2021/6/27)
+合成屋 Ver0.10.2(2021/7/2)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Name/CreateShop.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- MaxItemプラグインとの連携が出来ていないバグ修正
+- リファクタ
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -179,7 +179,7 @@ https://opensource.org/licenses/mit-license.php
     const MenuCommand       = String(params.MenuCommand);
     const MenuSwitch        = Number(params.MenuSwitch || 0);
     const DisableMenuSwitch = Number(params.DisableMenuSwitch || 0);
-    let MenuGoods    = null;
+    let MenuGoods = null;
     if (params.MenuGoods) {
         MenuGoods = JSON.parse(params.MenuGoods);
     }
@@ -763,25 +763,9 @@ https://opensource.org/licenses/mit-license.php
             const wx = 0;
             const wy = this._dummyWindow.y;
             const ww = Graphics.boxWidth - this.statusWidth();
-            // const wh = this.calcWindowHeight(5, true);
             const wh = this._dummyWindow.height - this._materialWindow.height;
             return new Rectangle(wx, wy, ww, wh);
         }
-
-
-
-/**
- * 購入ウィンドウのサイズ指定
- *
- * @returns {} 
- */
- /*Scene_Shop.prototype.buyWindowRect = function() {
-    const wx = 0;
-    const wy = this._dummyWindow.y;
-    const ww = Graphics.boxWidth - this.statusWidth();
-    const wh = this._dummyWindow.height;
-    return new Rectangle(wx, wy, ww, wh);
-};*/
 
         /**
          * 購入ウィンドウのアクティブ化

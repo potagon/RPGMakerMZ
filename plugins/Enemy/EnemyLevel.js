@@ -342,7 +342,7 @@ https://opensource.org/licenses/mit-license.php
         // 能力値の参照が使うときだけなので、ターン0 のとき全回復
         if (this._turnCount === 0) {
             this.members().forEach(function(enemy){
-            enemy.recoverAll();
+                enemy.recoverAll();
             });
         }
     };

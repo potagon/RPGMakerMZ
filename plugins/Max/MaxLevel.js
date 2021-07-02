@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-レベル上限突破 Ver0.13.1(2021/6/27)
+レベル上限突破 Ver0.13.2(2021/7/2)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Max/MaxLevel.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- NameDatabaseプラグインとの連携が出来ていないバグ修正
+- レベルアップ時の全回復機能を Recover.js に移動
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -44,14 +44,6 @@ https://opensource.org/licenses/mit-license.php
 @desc アクターのメモに記載するメタデータ(<モブ>)の名称
 モブは初期能力が低くなる
 @default モブ
-
-@param LevelUpRecover
-@type boolean
-@text レベルアップ時全回復
-@desc レベルアップ時に全回復するかの設定
-@on 回復する
-@off 回復しない
-@default false
 
 @param MaxLevelMenu
 @type boolean
@@ -99,7 +91,6 @@ https://opensource.org/licenses/mit-license.php
     const MaxLevel       = Number(params.MaxLevel || 9999);
     const SmallFishName  = String(params.SmallFishName || 'ザコ');
     const MobName        = String(params.MobName || 'モブ');
-    const LevelUpRecover = Potadra.convertBool(params.LevelUpRecover);
     const MaxLevelMenu   = Potadra.convertBool(params.MaxLevelMenu);
 
     // 他プラグイン連携(プラグインの導入有無)
@@ -224,11 +215,6 @@ https://opensource.org/licenses/mit-license.php
             this.displayLevelUp(this.findNewSkills(lastSkills));
         }
         this.refresh();
-
-        // パラメータ有効かつレベルアップした場合のみ回復
-        if (LevelUpRecover && this._level > lastLevel) {
-            this.recoverAll();
-        }
     };
 
     // レベル上限突破メニュー
