@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-敵キャラレベル追加 Ver0.12.0(2021/6/25)
+敵キャラレベル追加 Ver0.12.1(2021/7/3)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Enemy/EnemyLevel.js
 @base Potadra
@@ -9,7 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- 行動のレベル指定のバグ修正
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -269,11 +269,22 @@ https://opensource.org/licenses/mit-license.php
     
                 for (let i = 0; i < data.length; i++) {
                     if (data[i]) {
-                        action = data[i].split(',');
-                        let level = this.level();
+                        action        = data[i].split(',');
+                        let use       = false;
+                        let level     = this.level();
+                        let min_level = Number(action[0]);
+                        let max_level = Number(action[1]);
 
-                        // 設定されているレベル範囲内なら該当行動パターン判定(上限はレベル0なら無視される)
-                        if ( Number(action[0]) <= level && (level === 0 || level <= Number(action[1])) ) {
+                        // レベルによる条件判定
+                        if (min_level === 0 && max_level === 0) {
+                            // 条件が設定されていない場合、無条件で使用
+                            use = true;
+                        } else if (min_level <= level && (level === 0 || level <= max_level)) {
+                            // 設定されているレベル範囲内なら該当行動パターン判定(上限はレベル0なら無視される)
+                            use = true;
+                        }
+
+                        if ( use ) {
                             actions.push(
                                 {
                                     skillId: Potadra.nameSearch($dataSkills, action[2].trim()),

@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-ファストトラベル Ver0.7.0(2021/6/25)
+ファストトラベル Ver0.7.1(2021/7/3)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Map/FastTravel.js
 @base Potadra
@@ -9,8 +9,7 @@
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
-- 表示名を参照するときに現在のマップ名が参照されるバグ修正(技術的に難しいので、この機能は廃止)
+- コモンイベント名を指定できる機能追加
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -86,6 +85,12 @@ https://opensource.org/licenses/mit-license.php
 @default 0
 @min 0
 @max 2000
+
+@param common_event_name
+@type string
+@text コモンイベント名
+@desc 移動処理のコモンイベント名(名前でコモンイベント検索)
+コモンイベントを指定した場合は、以降の設定は不要です
 
 @param mapId
 @type number
@@ -212,7 +217,7 @@ https://opensource.org/licenses/mit-license.php
      *
      * @class
      */
-     class Scene_FastTravel extends Scene_MenuBase {
+    class Scene_FastTravel extends Scene_MenuBase {
         /**
          * 準備
          *
@@ -275,15 +280,21 @@ https://opensource.org/licenses/mit-license.php
          * コマンド［マップ移動］
          */
         commandMap() {
-            let map_data     = JSON.parse(this._moveMapLists[this._fastTravelWindow.index()]);
-            let common_event = Number(map_data.common_event || 0);
-            let mapId        = Number(map_data.mapId || 0);
-            let x            = Number(map_data.x || 0);
-            let y            = Number(map_data.y || 0);
-            let direction    = Number(map_data.direction || 0);
-            let fade_type    = Number(map_data.fade_type || 0);
-            let se           = Potadra.convertAudio(map_data.se);
+            let map_data          = JSON.parse(this._moveMapLists[this._fastTravelWindow.index()]);
+            let common_event      = Number(map_data.common_event || 0);
+            let common_event_name = String(map_data.common_event_name);
+            let mapId             = Number(map_data.mapId || 0);
+            let x                 = Number(map_data.x || 0);
+            let y                 = Number(map_data.y || 0);
+            let direction         = Number(map_data.direction || 0);
+            let fade_type         = Number(map_data.fade_type || 0);
+            let se                = Potadra.convertAudio(map_data.se);
             SceneManager.goto(Scene_Map);
+
+            if (common_event === 0 && common_event_name) {
+                common_event = Potadra.nameSearch($dataCommonEvents, common_event_name, 'id', 'name', 0);
+            }
+
             if (common_event === 0) {
                 if (se) {
                     AudioManager.playSe(se);
@@ -378,7 +389,13 @@ https://opensource.org/licenses/mit-license.php
                         let move_map_name = String(map_data.move_map_name);
                         let mapId         = Number(map_data.mapId || 0);
                         let common_event  = Number(map_data.common_event || 0);
+                        let common_event_name = String(map_data.common_event_name);
                         let command_name  = move_map_name || $dataMapInfos[mapId].name || mapId;
+
+                        if (common_event === 0 && common_event_name) {
+                            common_event = Potadra.nameSearch($dataCommonEvents, common_event_name, 'id', 'name', 0);
+                        }
+
                         if (!move_map_name && common_event !== 0) {
                             command_name = $dataCommonEvents[common_event].name;
                         }
