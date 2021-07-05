@@ -1,14 +1,13 @@
 /*:
 @plugindesc
-ベース Ver1.7.0(2021/6/25)
+ベース Ver1.8.0(2021/7/5)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Base/Potadra.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
-- サブフォルダ暫定対応
+- サブフォルダ対応
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -63,12 +62,8 @@ class Potadra {
      *
      * @returns {string} プラグイン名(.js の記載は除く)
      */
-    static getPluginName(sub = true) {
-        if (sub) {
-            return document.currentScript.src.replace(/.+\/plugins\/(.+)\.js/, '$1');
-        } else {
-            return document.currentScript.src.replace(/.+\/(.+)\.js/, '$1');
-        }
+    static getPluginName() {
+        return document.currentScript.src.replace(/.+\/(.+)\.js/, '$1');
     }
 
     /**
@@ -77,12 +72,8 @@ class Potadra {
      * @param {string} plugin_name - 導入状態を確認するプラグイン名(.js の記載は除く)
      * @returns {boolean} プラグインの導入有無
      */
-    static isPlugin(plugin_name, sub = true) {
-        if (sub) {
-            return PluginManager._scripts.some(plugin => ~plugin.indexOf(plugin_name));
-        } else {
-            return PluginManager._scripts.includes(plugin_name);
-        }
+    static isPlugin(plugin_name) {
+        return PluginManager._scripts.includes(plugin_name);
     }
 
     /**
