@@ -20,7 +20,7 @@ plugins/*
 !plugins/System
 !plugins/Title
 !plugins/Window
-plugins/Base/Personal_Item.js
+plugins/Base/PersonalItem.js
 plugins/Command/TempVariables.js
 plugins/Event/Info.js
 plugins/Level/LevelUpSound.js
@@ -28,8 +28,11 @@ plugins/Map/Minecraft.js
 plugins/Max/Max.js
 plugins/Max/LevelCap.js
 plugins/Name/NameId.js
+plugins/Name/NameItem.js
+plugins/Name/NameSkill.js
 plugins/Name/NameSwitch.js
 plugins/Save/StartDelete.js
+plugins/Skill/SkillLevel.js
 plugins/Skill/RepeatAnimation.js
 plugins/System/DisableRandomEncount.js
 plugins/Test/MenuWindow.js

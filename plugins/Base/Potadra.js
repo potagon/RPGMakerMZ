@@ -1,13 +1,14 @@
 /*:
 @plugindesc
-ベース Ver1.8.0(2021/7/5)
+ベース Ver1.8.1(2021/7/7)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Base/Potadra.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- サブフォルダ対応
+- ヘルプ修正
+- パラメータの論理名を変更
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -21,12 +22,12 @@ https://opensource.org/licenses/mit-license.php
 必ずダウンロードして他のプラグインの最上部に配置してください。
 
 ## 使い方
-1. 他のプラグインの最上部に配置してください。
-2. バグ修正用のパラメータ設定を必要に応じて修正する。
+1. 他のプラグインの最上部に配置する。
+2. バグ修正用のパラメータを必要に応じて変更する。
 
 @param FixBattleEnemyDrawItem
 @type boolean
-@text 敵キャラウィンドウバグ修正
+@text 敵キャラ選択ウィンドウバグ修正
 @desc 敵キャラを選択するウィンドウで制御文字が使えないバグ修正
 @on 修正する
 @off 修正しない

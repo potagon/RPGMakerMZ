@@ -1,13 +1,13 @@
 /*:
 @plugindesc
-MVベース Ver0.8.0(2021/6/25)
+MVベース Ver0.8.1(2021/7/7)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Base/MV.js
 @target MZ
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- JSDoc修正
 
 ・TODO
 - Argument must be a Rectangle を解決するオプション
@@ -200,6 +200,8 @@ MVベースプラグインです。
 
     /**
      * 保留項目の背景色を取得
+     *
+     * @returns {}
      */
     Window_Base.prototype.pendingColor = function() {
         return ColorManager.pendingColor();
@@ -207,6 +209,8 @@ MVベースプラグインです。
 
     /**
      * HP の文字色を取得
+     *
+     * @returns {}
      */
     Window_Base.prototype.hpColor = function(actor) {
         return ColorManager.hpColor(actor);
@@ -214,6 +218,8 @@ MVベースプラグインです。
 
     /**
      * MP の文字色を取得
+     *
+     * @returns {}
      */
     Window_Base.prototype.mpColor = function(actor) {
         return ColorManager.mpColor();
@@ -221,6 +227,8 @@ MVベースプラグインです。
 
     /**
      * TP の文字色を取得
+     *
+     * @returns {}
      */
     Window_Base.prototype.tpColor = function(actor) {
         return ColorManager.tpColor();
@@ -567,7 +575,7 @@ MVベースプラグインです。
     // drawHorzLine
     // Window_ShopNumber(MVには定義なし)
     // MZ では、windowHeight が以下以外ないので追加
-    /*
+    /**
      * 水平線の描画
      */
     Window_Status.prototype.drawHorzLine = function(y) {
@@ -577,8 +585,10 @@ MVベースプラグインです。
         this.contents.paintOpacity = 255;
     };
 
-    /*
+    /**
      * 水平線の色を取得
+     *
+     * @returns {}
      */
     Window_Status.prototype.lineColor = function() {
         return this.normalColor();
@@ -587,7 +597,7 @@ MVベースプラグインです。
         return 6;
     };
     
-    /*
+    /**
      * ブロック 4 の描画
      */
     Window_Status.prototype.drawBlock4 = function(y) {
@@ -597,9 +607,9 @@ MVベースプラグインです。
         this.drawTextEx(this._actor.profile(), x, y);
     };
 
-    /*
-    * 装備スロットの名前を取得
-    */
+    /**
+     * 装備スロットの名前を取得
+     */
     Window_EquipSlot.prototype.slotName = function(index) {
         var slots = this._actor.equipSlots();
         return this._actor ? $dataSystem.equipTypes[slots[index]] : '';
@@ -609,8 +619,10 @@ MVベースプラグインです。
     // Window_MenuStatus(MVと同じ)
     // Window_SavefileList(MVには定義なし)
     // Window_ChoiceList
-    /*
+    /**
      * 表示行数の取得
+     *
+     * @returns {}
      */
     Window_Command.prototype.numVisibleRows = function() {
         return Math.ceil(this.maxItems() / this.maxCols());
@@ -743,7 +755,7 @@ MVベースプラグインです。
         this.drawText(actor.level, x + 84, y, 36, 'right');
     };
 
-    /*
+    /**
      * ステートおよび強化／弱体のアイコンを描画
      */
     Window_Base.prototype.drawActorIcons = function(actor, x, y, width) {

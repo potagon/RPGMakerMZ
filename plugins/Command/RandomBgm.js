@@ -1,6 +1,6 @@
 /*:
 @plugindesc
-BGMランダム再生 Ver1.4.0(2021/6/25)
+BGMランダム再生 Ver1.4.1(2021/7/7)
 
 @url https://raw.githubusercontent.com/pota-dra/RPGMakerMZ/main/plugins/Command/RandomBgm.js
 @base Potadra
@@ -9,7 +9,7 @@ BGMランダム再生 Ver1.4.0(2021/6/25)
 @author ポテトドラゴン
 
 ・アップデート情報
-- プラグイン名変更
+- ヘルプ記載
 
 Copyright (c) 2021 ポテトドラゴン
 Released under the MIT License.
@@ -20,13 +20,11 @@ https://opensource.org/licenses/mit-license.php
 プラグインコマンド指定したBGMの中からランダムにBGMを再生します。
 
 ## 使い方
+1. プラグインコマンドを呼び出します
+2. プラグインコマンドからランダムに再生したいBGMのリストを作成します
+3. プラグインコマンドを指定したイベントが呼び出されると、BGMのリストからランダムにBGMが再生されます。
 
-
-### パラメータ
-
-
-### プラグインコマンド
-
+タイトルと戦闘のランダムBGMは、パラメータから同様の設定を行ってください。
 
 @param TitleRandom
 @type boolean
